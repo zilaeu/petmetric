@@ -1,74 +1,41 @@
+import catalog from '../data/content.json'
+
 type AnyRecord = Record<string, any>
-
+const rich = catalog as AnyRecord
 const categoryMeta: Record<string, AnyRecord> = {
-  'automatic-litter-boxes': { eyebrow: 'Product database', subtitle: 'Automatic litter boxes compared on fit, cleaning workflow, safety, and ongoing cost.', criteria: ['Cat entry and weight fit', 'Litter compatibility', 'Safety sensors and cleaning workflow', 'Consumables and app costs'] },
-  'smart-pet-feeders': { eyebrow: 'Product database', subtitle: 'Smart feeders compared on portion accuracy, food compatibility, connectivity, and backup power.', criteria: ['Portion repeatability', 'Food and kibble compatibility', 'Jam recovery and cleaning', 'Schedule storage and backup power'] },
-  'gps-pet-trackers': { eyebrow: 'Product database', subtitle: 'GPS trackers compared on coverage, alert speed, battery, fit, and subscription terms.', criteria: ['Network coverage', 'Live refresh and escape alerts', 'Battery and charging', 'Collar fit and membership cost'] },
-  'pet-cameras': { eyebrow: 'Product database', subtitle: 'Pet cameras compared on useful alerts, two-way audio, privacy, and recurring fees.', criteria: ['Field of view and night vision', 'Alert quality', 'Local versus cloud storage', 'Subscription and privacy controls'] }
+  'automatic-litter-boxes': { eyebrow: 'Product database', icon: 'litter' }, 'smart-pet-feeders': { eyebrow: 'Product database', icon: 'feeder' },
+  'gps-pet-trackers': { eyebrow: 'Product database', icon: 'tracker' }, 'pet-cameras': { eyebrow: 'Product database', icon: 'camera' },
+  'smart-water-fountains': { eyebrow: 'Hydration technology', icon: 'feeder' }, 'pet-grooming-tools': { eyebrow: 'Daily care', icon: 'wrench' },
+  'pet-waste-cleanup': { eyebrow: 'Cleaner routines', icon: 'refresh' }, 'pet-walking-safety': { eyebrow: 'Outdoors and travel', icon: 'shield' }
 }
-
 function env(event: any) { return event.context.cloudflare?.env || {} }
 function hasDb(db: any): db is D1Database { return Boolean(db && typeof db.prepare === 'function') }
 function jsonError(status: number, message: string) { throw createError({ statusCode: status, statusMessage: message }) }
+function categoryFor(slug: string) { return (rich.categories || []).find((c: AnyRecord) => c.slug === slug) }
 function productRow(row: AnyRecord) {
-  return { ...row, categorySlug: row.categorySlug || row.category_slug, price: row.priceCents == null ? null : Number(row.priceCents) / 100, priceDisplay: row.priceCents == null ? null : `$${(Number(row.priceCents) / 100).toFixed(2)}`, score: row.score == null ? null : Number(row.score), updated: row.updatedAt || row.updated_at, bestFor: row.bestFor || row.best_for, merchantName: 'Amazon.com', merchantUrl: null, img: null, imageKey: '', tags: [], specs: [] }
+  const price = row.price == null ? null : Number(row.price)
+  return { ...row, id: String(row.id), price, priceDisplay: row.priceDisplay || (price == null ? null : `$${price.toFixed(2)}`), merchantName: row.merchantName || 'Amazon.com', merchantUrl: row.merchantUrl || null, img: row.img || null, imageKey: row.imageKey || '', alt: row.alt || row.name, tags: Array.isArray(row.tags) ? row.tags : [], specs: Array.isArray(row.specs) ? row.specs : [], specDetails: Array.isArray(row.specDetails) ? row.specDetails : [], filterSpecs: row.filterSpecs || {}, priceStatus: row.priceStatus || (price == null ? 'unavailable' : row.commerceCheckedAt ? 'verified' : 'stale'), categorySlug: row.categorySlug || row.category_slug }
 }
-
+function researchRow(row: AnyRecord, kind: string) {
+  const section = kind === 'Comparison' ? 'comparisons' : kind === 'Best pick' ? 'best-picks' : kind === 'Guide' ? 'guides' : 'troubleshooting'
+  const category = categoryFor(row.categorySlug)
+  return { ...row, type: kind, category: row.category || category?.name || 'Products', desc: row.desc || row.excerpt || row.description || '', excerpt: row.excerpt || row.desc || row.description || '', readTime: row.readTime || '—', updated: row.updated || row.checkedAt || '—', checkedAt: row.checkedAt || row.updated || null, href: `/${section}/${row.slug}/`, content: row.content || (kind === 'Best pick' ? { ...row } : { sections: [] }) }
+}
 export default defineEventHandler(async (event) => {
   const db = env(event).DB
-  if (!hasDb(db)) jsonError(503, 'Database binding unavailable')
   const parts = String(event.context.params?.path || '').split('/').filter(Boolean)
   const query = getQuery(event)
-  const limit = Math.min(Number(query.limit || 100), 100)
+  const limit = Math.min(Math.max(Number(query.limit || 100), 1), 100)
   try {
     if (parts[0] === 'categories') {
-      if (parts.length === 1) {
-        const result = await db.prepare('SELECT slug,name,description,icon,product_count AS productCount,updated_at AS updatedAt FROM categories ORDER BY name').all()
-        return { data: (result.results || []).map((c: any) => ({ ...c, title: c.name, shortName: c.name, count: c.productCount, ...categoryMeta[c.slug] })) }
-      }
-      const slug = parts[1]
-      const category = await db.prepare('SELECT slug,name,description,icon,product_count AS productCount,updated_at AS updatedAt FROM categories WHERE slug = ?').bind(slug).first()
-      if (!category) jsonError(404, 'Category not found')
-      if (parts[2] === 'products') {
-        const rows = await db.prepare('SELECT slug,category_slug AS categorySlug,name,brand,price_cents AS priceCents,subscription,score,verdict,best_for AS bestFor,updated_at AS updatedAt FROM products WHERE category_slug = ? ORDER BY score DESC LIMIT ?').bind(slug, limit).all()
-        return { data: (rows.results || []).map(productRow) }
-      }
-      const c: any = category
-      return { data: { ...c, title: c.name, shortName: c.name, count: c.productCount, reviewedCount: 0, comparisons: 0, ...categoryMeta[slug] } }
+      if (parts.length > 1) { const c = categoryFor(parts[1]); if (!c) jsonError(404, 'Category not found'); const count = (rich.products || []).filter((p: AnyRecord) => p.categorySlug === parts[1]).length; if (parts[2] === 'products') return { data: (rich.products || []).filter((p: AnyRecord) => p.categorySlug === parts[1]).slice(0, limit).map(productRow) }; return { data: { ...c, ...categoryMeta[parts[1]], title: c.title || c.name, shortName: c.shortName || c.title || c.name, count, productCount: count } } }
+      return { data: (rich.categories || []).map((c: AnyRecord) => { const count = (rich.products || []).filter((p: AnyRecord) => p.categorySlug === c.slug).length; return { ...c, ...categoryMeta[c.slug], title: c.title || c.name, shortName: c.shortName || c.title || c.name, count, productCount: count } }) }
     }
-    if (parts[0] === 'products') {
-      const base = 'SELECT slug,category_slug AS categorySlug,name,brand,price_cents AS priceCents,subscription,score,verdict,best_for AS bestFor,updated_at AS updatedAt FROM products'
-      const rows = parts[1] ? await db.prepare(`${base} WHERE slug = ?`).bind(parts[1]).all() : await db.prepare(`${base} ORDER BY score DESC LIMIT ?`).bind(limit).all()
-      if (parts[1] && !rows.results?.length) jsonError(404, 'Product not found')
-      return { data: parts[1] ? productRow(rows.results[0]) : (rows.results || []).map(productRow) }
-    }
-    if (['comparisons', 'best-picks', 'troubleshooting', 'guides'].includes(parts[0])) {
-      const typeMap: Record<string, string> = { comparisons: 'Comparison', 'best-picks': 'Best pick', troubleshooting: 'Troubleshooting', guides: 'Guide' }
-      const type = typeMap[parts[0]]
-      let sql = 'SELECT slug,title,excerpt,type,category,read_time AS readTime,checked_at AS checkedAt,accent FROM research_items WHERE type = ?'
-      const values: any[] = [type]
-      if (typeof query.category === 'string' && query.category) { sql += ' AND lower(replace(category, \' \', \'-\')) LIKE ?'; values.push(`%${String(query.category).toLowerCase()}%`) }
-      sql += ' ORDER BY checkedAt DESC LIMIT ?'; values.push(limit)
-      const rows = await db.prepare(sql).bind(...values).all()
-      const items = (rows.results || []).map((r: any) => ({ ...r, categorySlug: String(r.category || '').toLowerCase().replaceAll(' ', '-'), desc: r.excerpt, readTime: r.readTime, updated: r.checkedAt, href: `/${parts[0]}/${r.slug}/`, content: { sections: [] }, alternatives: [] }))
-      if (parts[1]) {
-        const item = items.find((x: any) => x.slug === parts[1])
-        if (!item) jsonError(404, 'Research item not found')
-        return { data: item }
-      }
-      return { data: items }
-    }
-    if (parts[0] === 'home') {
-      const [categories, products, research] = await Promise.all([
-        db.prepare('SELECT slug,name,description,product_count AS productCount,updated_at AS updatedAt FROM categories ORDER BY name').all(),
-        db.prepare('SELECT COUNT(*) AS count FROM products').first<any>(),
-        db.prepare('SELECT COUNT(*) AS count FROM research_items WHERE type = \'Comparison\'').first<any>()
-      ])
-      return { data: { categories: categories.results || [], stats: { productsResearched: String(products?.count || 0), productCategories: String((categories.results || []).length), comparisonsPublished: String(research?.count || 0), guidesPublished: '0' }, productsResearched: String(products?.count || 0), productCategories: String((categories.results || []).length), comparisonsPublished: String(research?.count || 0), guidesPublished: '0' } }
-    }
+    if (parts[0] === 'products') { const items = (rich.products || []).map(productRow); if (parts[1]) { const item = items.find((p: AnyRecord) => p.slug === parts[1]); if (!item) jsonError(404, 'Product not found'); return { data: item } } return { data: items.slice(0, limit) } }
+    const typeMap: Record<string, string> = { comparisons: 'Comparison', 'best-picks': 'Best pick', guides: 'Guide', troubleshooting: 'Troubleshooting' }
+    if (typeMap[parts[0]]) { const kind = typeMap[parts[0]]; let items = (rich.research || []).filter((r: AnyRecord) => r.type === kind).map((r: AnyRecord) => researchRow(r, kind)); if (typeof query.category === 'string' && query.category) { const needle = String(query.category).toLowerCase(); items = items.filter((r: AnyRecord) => r.categorySlug === needle || `${r.category} ${r.categorySlug}`.toLowerCase().includes(needle.replaceAll('-', ' '))) } if (parts[1]) { const item = items.find((r: AnyRecord) => r.slug === parts[1]); if (!item) jsonError(404, 'Research item not found'); return { data: item } } return { data: items.slice(0, limit) } }
+    if (parts[0] === 'home') { const products = (rich.products || []).length; const categories = (rich.categories || []).length; const comparisons = (rich.research || []).filter((r: AnyRecord) => r.type === 'Comparison').length; const guides = (rich.research || []).filter((r: AnyRecord) => r.type === 'Guide').length; return { data: { categories: rich.categories || [], stats: { productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons), guidesPublished: String(guides) }, productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons), guidesPublished: String(guides) } } }
+    if (parts[0] === 'pages' && hasDb(db)) { const row = await db.prepare('SELECT slug,title,content_json FROM content_pages WHERE slug = ?').bind(parts[1] || '').first<any>(); if (row) return { data: { ...row, content: row.content_json ? JSON.parse(row.content_json) : {} } } }
     return { data: null }
-  } catch (error: any) {
-    if (error?.statusCode) throw error
-    jsonError(500, 'Content query failed')
-  }
+  } catch (error: any) { if (error?.statusCode) throw error; jsonError(500, 'Content query failed') }
 })
