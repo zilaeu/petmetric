@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-DEFAULT: var(--radius);
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-source-sans);
+  --font-mono: var(--font-dm-mono);
+}
+
+:root {
+  --background: #f7f5f0;
+  --foreground: #141210;
+  --card: #ffffff;
+  --card-foreground: #141210;
+  --primary: #1a2744;
+  --primary-foreground: #f7f5f0;
+  --secondary: #eceae4;
+  --secondary-foreground: #3a3630;
+  --muted: #e5e2da;
+  --muted-foreground: #706c64;
+  --accent: #d97c2a;
+  --accent-foreground: #ffffff;
+  --border: #d4d0c8;
+  --ring: #d97c2a;
+  --radius: 4px;
+
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-source-sans: 'Source Sans 3', system-ui, sans-serif;
+  --font-dm-mono: 'DM Mono', 'Courier New', monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-source-sans);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+*:hover {
+  scrollbar-color: var(--border) transparent;
+}

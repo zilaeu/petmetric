@@ -1,0 +1,10 @@
+{
+  "description": "Discover and compare pet products, read expert reviews, and troubleshoot issues to make informed purchasing decisions for your furry friends.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

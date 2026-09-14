@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pet-metric-ui",
+  "compatibility_date": "2026-08-31",
+  "pages_build_output_dir": "./dist",
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+  "vars": {
+    "SITE_NAME": "PetMetric",
+    "SITE_DESCRIPTION": "Independent pet technology research for better everyday decisions.",
+    "CONTACT_EMAIL": "hello@petmetric.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "pet-metric-db"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "pet-metric-media"
+    }
+  ]
+}

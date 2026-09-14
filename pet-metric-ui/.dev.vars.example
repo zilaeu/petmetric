@@ -1,0 +1,3 @@
+# Keep secrets out of wrangler.jsonc and commit only this example.
+ADMIN_TOKEN=replace-with-a-long-random-value
+

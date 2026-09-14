@@ -1,0 +1,21 @@
+# Local project dependencies and generated output
+**/node_modules/
+**/.pnpm-store/
+**/.nuxt/
+**/.output/
+**/dist/
+**/.wrangler/
+**/.dev.vars
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# The old standalone Cloudflare demo is a nested Git repository and is not
+# part of the PetMetric application.
+cloudeflera-nuxt-demo/

@@ -1,0 +1,19 @@
+{
+  "name": "pet-metric-admin",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev --host 127.0.0.1 --port 3002",
+    "build": "nuxt build",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1"
+  },
+  "packageManager": "pnpm@11.15.1"
+}
