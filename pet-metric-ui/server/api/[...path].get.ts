@@ -38,7 +38,24 @@ export default defineEventHandler(async (event) => {
     if (parts[0] === 'products') { const items = (rich.products || []).map(productRow); if (parts[1]) { const item = items.find((p: AnyRecord) => p.slug === parts[1]); if (!item) jsonError(404, 'Product not found'); return { data: item } } return { data: items.slice(0, limit) } }
     const typeMap: Record<string, string> = { comparisons: 'Comparison', 'best-picks': 'Best pick', guides: 'Guide', troubleshooting: 'Troubleshooting' }
     if (typeMap[parts[0]]) { const kind = typeMap[parts[0]]; let items = (rich.research || []).filter((r: AnyRecord) => r.type === kind).map((r: AnyRecord) => researchRow(r, kind)); if (typeof query.category === 'string' && query.category) { const needle = String(query.category).toLowerCase(); items = items.filter((r: AnyRecord) => r.categorySlug === needle || `${r.category} ${r.categorySlug}`.toLowerCase().includes(needle.replaceAll('-', ' '))) } if (parts[1]) { const item = items.find((r: AnyRecord) => r.slug === parts[1]); if (!item) jsonError(404, 'Research item not found'); return { data: item } } return { data: items.slice(0, limit) } }
-    if (parts[0] === 'home') { const products = (rich.products || []).length; const categories = (rich.categories || []).length; const comparisons = (rich.research || []).filter((r: AnyRecord) => r.type === 'Comparison').length; const guides = (rich.research || []).filter((r: AnyRecord) => r.type === 'Guide').length; return { data: { categories: rich.categories || [], stats: { productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons), guidesPublished: String(guides) }, productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons), guidesPublished: String(guides) } } }
+    if (parts[0] === 'home') {
+      const products = (rich.products || []).length
+      const categories = (rich.categories || []).length
+      const comparisons = (rich.research || []).filter((r: AnyRecord) => r.type === 'Comparison')
+      const bestPicks = (rich.research || []).filter((r: AnyRecord) => r.type === 'Best pick')
+      const troubleshooting = (rich.research || []).filter((r: AnyRecord) => r.type === 'Troubleshooting')
+      const guides = (rich.research || []).filter((r: AnyRecord) => r.type === 'Guide').length
+      return {
+        data: {
+          categories: rich.categories || [],
+          comparisons: comparisons.slice(0, 4).map((r: AnyRecord) => researchRow(r, 'Comparison')),
+          bestPicks: bestPicks.slice(0, 6).map((r: AnyRecord) => researchRow(r, 'Best pick')),
+          troubleshooting: troubleshooting.slice(0, 4).map((r: AnyRecord) => researchRow(r, 'Troubleshooting')),
+          stats: { productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons.length), guidesPublished: String(guides) },
+          productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons.length), guidesPublished: String(guides)
+        }
+      }
+    }
     if (parts[0] === 'pages' && hasDb(db)) { const row = await db.prepare('SELECT slug,title,content_json FROM content_pages WHERE slug = ?').bind(parts[1] || '').first<any>(); if (row) return { data: { ...row, content: row.content_json ? JSON.parse(row.content_json) : {} } } }
     return { data: null }
   } catch (error: any) { if (error?.statusCode) throw error; jsonError(500, 'Content query failed') }
