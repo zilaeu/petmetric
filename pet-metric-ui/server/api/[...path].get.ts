@@ -3,10 +3,14 @@ import catalog from '../data/content.json'
 type AnyRecord = Record<string, any>
 const rich = catalog as AnyRecord
 const categoryMeta: Record<string, AnyRecord> = {
-  'automatic-litter-boxes': { eyebrow: 'Product database', icon: 'litter' }, 'smart-pet-feeders': { eyebrow: 'Product database', icon: 'feeder' },
-  'gps-pet-trackers': { eyebrow: 'Product database', icon: 'tracker' }, 'pet-cameras': { eyebrow: 'Product database', icon: 'camera' },
-  'smart-water-fountains': { eyebrow: 'Hydration technology', icon: 'feeder' }, 'pet-grooming-tools': { eyebrow: 'Daily care', icon: 'wrench' },
-  'pet-waste-cleanup': { eyebrow: 'Cleaner routines', icon: 'refresh' }, 'pet-walking-safety': { eyebrow: 'Outdoors and travel', icon: 'shield' }
+  'automatic-litter-boxes': { eyebrow: 'Product database', icon: 'litter', criteria: ['Cat entry and weight fit', 'Litter compatibility', 'Safety sensors and cleaning workflow', 'Consumables and app costs'] },
+  'smart-pet-feeders': { eyebrow: 'Product database', icon: 'feeder', criteria: ['Portion repeatability', 'Food and kibble compatibility', 'Jam recovery and cleaning', 'Schedule storage and backup power'] },
+  'gps-pet-trackers': { eyebrow: 'Product database', icon: 'tracker', criteria: ['Network coverage', 'Live refresh and escape alerts', 'Battery and charging', 'Collar fit and membership cost'] },
+  'pet-cameras': { eyebrow: 'Product database', icon: 'camera', criteria: ['Field of view and night vision', 'Alert quality', 'Local versus cloud storage', 'Subscription and privacy controls'] },
+  'smart-water-fountains': { eyebrow: 'Hydration technology', icon: 'feeder', criteria: ['Water delivery', 'Hygiene and cleaning', 'Noise and consumables'] },
+  'pet-grooming-tools': { eyebrow: 'Daily care', icon: 'wrench', criteria: ['Noise and handling', 'Coat or nail fit', 'Cleaning and replacement parts'] },
+  'pet-waste-cleanup': { eyebrow: 'Cleaner routines', icon: 'refresh', criteria: ['Leak and odor control', 'Capacity and refill cost', 'Daily cleanup effort'] },
+  'pet-walking-safety': { eyebrow: 'Outdoors and travel', icon: 'shield', criteria: ['Fit and adjustment range', 'Escape resistance', 'Visibility and control'] }
 }
 function env(event: any) { return event.context.cloudflare?.env || {} }
 function hasDb(db: any): db is D1Database { return Boolean(db && typeof db.prepare === 'function') }
