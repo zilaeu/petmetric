@@ -41,7 +41,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://127.0.0.1:4000/api/v1'
+      // In production the Pages Functions API is same-origin. Keep the
+      // external localhost URL available only when explicitly configured for
+      // local development against the standalone REST service.
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api'
     }
   },
   typescript: {
