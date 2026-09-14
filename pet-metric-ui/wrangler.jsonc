@@ -13,7 +13,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "pet-metric-db"
+      "database_name": "pet-metric-db",
+      "database_id": "5bc22201-5aa7-4af8-98d3-c3c3be8e9ddc"
     }
   ],
   "r2_buckets": [
