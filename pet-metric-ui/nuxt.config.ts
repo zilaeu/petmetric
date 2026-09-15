@@ -44,7 +44,10 @@ export default defineNuxtConfig({
       // In production the Pages Functions API is same-origin. Keep the
       // external localhost URL available only when explicitly configured for
       // local development against the standalone REST service.
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
+      // GA4 stays opt-in so local previews and unconfigured deployments do
+      // not send analytics accidentally. Set this to a G-XXXXXXXXXX ID.
+      gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || ''
     }
   },
   typescript: {
