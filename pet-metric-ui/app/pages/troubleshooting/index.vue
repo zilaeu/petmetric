@@ -38,7 +38,7 @@ const supportChecklist = [
   'Steps already attempted and whether the behavior changed after each one'
 ]
 
-useSeoMeta({ title: 'Troubleshooting — PetMetric', description: 'Step-by-step, safety-first troubleshooting for popular pet technology.' })
+useSeoMeta({ title: 'Troubleshooting — PetMetricus', description: 'Step-by-step, safety-first troubleshooting for popular pet technology.' })
 </script>
 
 <template>

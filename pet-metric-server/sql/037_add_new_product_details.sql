@@ -39,9 +39,9 @@ SELECT p.id,v.spec_key,v.label,v.value,v.sort_order FROM products p JOIN (
 
 INSERT INTO product_reviews (product_id,summary,gallery_json,quick_specs_json,strengths_json,limitations_json,sections_json,research_date,price_checked_date,next_review_label,source_count)
 SELECT p.id,
-  CONCAT(p.name,' is a ',LOWER(p.verdict),' PetMetric review focuses on setup, daily reliability, ongoing cost, and the fit for ',LOWER(p.best_for),'.'),
+  CONCAT(p.name,' is a ',LOWER(p.verdict),' PetMetricus review focuses on setup, daily reliability, ongoing cost, and the fit for ',LOWER(p.best_for),'.'),
   JSON_ARRAY(p.image_url),
-  JSON_ARRAY(JSON_OBJECT('label','Price','value',COALESCE(p.price_display,'See current listing')),JSON_OBJECT('label','Subscription','value',COALESCE(p.subscription,'Not stated')),JSON_OBJECT('label','PetMetric score','value',CONCAT(COALESCE(p.score,'—'),' / 5')),JSON_OBJECT('label','Best for','value',p.best_for)),
+  JSON_ARRAY(JSON_OBJECT('label','Price','value',COALESCE(p.price_display,'See current listing')),JSON_OBJECT('label','Subscription','value',COALESCE(p.subscription,'Not stated')),JSON_OBJECT('label','PetMetricus score','value',CONCAT(COALESCE(p.score,'—'),' / 5')),JSON_OBJECT('label','Best for','value',p.best_for)),
   JSON_ARRAY(CONCAT('Clear fit for ',LOWER(p.best_for)), 'Published price and ownership trade-offs are called out explicitly.'),
   JSON_ARRAY('Real-world fit, app behavior, and availability can vary by household.', 'Recheck current price, stock, and compatibility before purchase.'),
   JSON_ARRAY(JSON_OBJECT('title','What it is','body',p.verdict),JSON_OBJECT('title','Best for','body',p.best_for),JSON_OBJECT('title','Ownership notes','body',CONCAT('Plan for ',LOWER(COALESCE(p.subscription,'routine maintenance and setup checks')),'.'))),

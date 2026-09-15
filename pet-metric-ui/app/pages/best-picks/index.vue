@@ -36,7 +36,7 @@ const pageCount = computed(() => Math.max(1, Math.ceil(picks.value.length / page
 const pagedPicks = computed(() => picks.value.slice((currentPage.value - 1) * pageSize, currentPage.value * pageSize))
 watch(active, () => { currentPage.value = 1 })
 
-useSeoMeta({ title: 'Best Picks — PetMetric', description: 'Scenario-based pet technology recommendations with budget and tradeoffs.' })
+useSeoMeta({ title: 'Best Picks — PetMetricus', description: 'Scenario-based pet technology recommendations with budget and tradeoffs.' })
 </script>
 
 <template>

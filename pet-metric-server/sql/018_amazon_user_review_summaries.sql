@@ -2,7 +2,7 @@
   Amazon customer-review snapshots
 
   These records summarize only the review content visible on the linked
-  Amazon.com product page at the checked date. They are not PetMetric tests,
+  Amazon.com product page at the checked date. They are not PetMetricus tests,
   and they must not be presented as an analysis of every rating on a listing.
 */
 SET NAMES utf8mb4;
@@ -67,7 +67,7 @@ SELECT id,'Amazon.com','https://www.amazon.com/dp/B00VIXRB6O','2026-09-07',4.2,6
     'The supplied bowl can feel oversized or noisy for cats, and the dispenser clearance makes smaller replacement bowls awkward.',
     'Determined cats may tip, bump, or reach into the outlet, and the conveyor needs to be primed after filling or tipping.'
   ),
-  'Based on 8 U.S. top reviews visible on the Amazon.com product page on 2026-09-07, not all 6,411 ratings. Featured reviews are selected by Amazon rather than sampled by PetMetric, so themes indicate issues to investigate, not their frequency across all owners.'
+  'Based on 8 U.S. top reviews visible on the Amazon.com product page on 2026-09-07, not all 6,411 ratings. Featured reviews are selected by Amazon rather than sampled by PetMetricus, so themes indicate issues to investigate, not their frequency across all owners.'
 FROM products WHERE external_id='B00VIXRB6O'
 ON DUPLICATE KEY UPDATE
   source_name=VALUES(source_name),source_url=VALUES(source_url),checked_at=VALUES(checked_at),rating=VALUES(rating),review_count=VALUES(review_count),

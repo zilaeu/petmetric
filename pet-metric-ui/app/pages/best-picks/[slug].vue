@@ -76,14 +76,14 @@ const content = computed(() => {
   }
 })
 useHead(() => ({
-  title: `${content.value.title} — PetMetric`,
+  title: `${content.value.title} — PetMetricus`,
   meta: [{ name: 'description', content: content.value.summary }],
   script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetric.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Best Picks', item: 'https://petmetric.com/best-picks/' },
-      { '@type': 'ListItem', position: 3, name: content.value.title, item: `https://petmetric.com/best-picks/${String(route.params.slug)}/` }
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Best Picks', item: 'https://petmetricus.com/best-picks/' },
+      { '@type': 'ListItem', position: 3, name: content.value.title, item: `https://petmetricus.com/best-picks/${String(route.params.slug)}/` }
     ]
   }) }]
 }))

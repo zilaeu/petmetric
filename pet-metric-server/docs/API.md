@@ -1,4 +1,4 @@
-# PetMetric 查询 API
+# PetMetricus 查询 API
 
 Base URL：`http://localhost:4000/api/v1`
 
@@ -58,7 +58,7 @@ GET /api/v1/categories/automatic-litter-boxes/products?maxPrice=500&catCount=1%E
 
 产品响应保留了当前 Nuxt 使用的字段名，并包含 Amazon 商业快照字段：
 
-- `amazonRating`、`amazonReviewCount`：Amazon 页面展示的用户评分与评论数，不是 PetMetric 编辑评分。
+- `amazonRating`、`amazonReviewCount`：Amazon 页面展示的用户评分与评论数，不是 PetMetricus 编辑评分。
 - `availability`、`commerceCheckedAt`：抓取时的库存文案与核验时间；为空表示来源页没有可靠展示，不代表缺货。
 - `specs`、`specDetails`：经核验的 Amazon listing facts；`specDetails` 同时保留标签和值。
 - `filterSpecs`：站内结构化筛选字段，与页面展示规格分开，避免更新商品事实后破坏筛选。
@@ -107,7 +107,7 @@ GET /api/v1/categories/automatic-litter-boxes/products?maxPrice=500&catCount=1%E
 详情响应还包含 `products`、`userFeedback` 与 `researchConclusion`：
 
 - `products`：两款商品的身份信息，包括 `brand`、`asin`、`variant`、`img`、`merchantUrl`、`structure`、`dimensions`、`weight` 和 `capacity`。缺失资料返回 `Not verified`，不会推断参数。
-- `productAttributes`：基础商品信息矩阵。固定包含品牌、ASIN、当前 listing/变体、颜色、材质、尺寸、重量、价格、Amazon 评分、评论数、Amazon Best Sellers Rank 和 PetMetric 站内顺序；同时合并两款商品 `product_specs` 的属性并集。同一标准化属性只返回一行，两边分别给值；只有一方有资料时，另一方返回未明确状态，而不是删除该指标。Amazon BSR 与 PetMetric 站内顺序是两个独立字段。
+- `productAttributes`：基础商品信息矩阵。固定包含品牌、ASIN、当前 listing/变体、颜色、材质、尺寸、重量、价格、Amazon 评分、评论数、Amazon Best Sellers Rank 和 PetMetricus 站内顺序；同时合并两款商品 `product_specs` 的属性并集。同一标准化属性只返回一行，两边分别给值；只有一方有资料时，另一方返回未明确状态，而不是删除该指标。Amazon BSR 与 PetMetricus 站内顺序是两个独立字段。
 - `criteria[].aStatus` / `criteria[].bStatus`：证据状态，取值为 `explicit`（页面明确说明）、`claim`（宣传声称）、`unclear`（未明确说明）或 `unsupported`（明确不支持）。`aSourceUrl` / `bSourceUrl` 为该指标的来源链接；没有来源时为空。
 - `userFeedback`：官方资料与评论级用户反馈分离。当前尚未完成逐条评论功能编码时，`status` 为 `not_researched`，并通过 `summary`、`sampleLimit` 明确说明，不能把 Amazon 评分当作功能验证。
 - `researchConclusion`：基于当前已核验证据生成的 `coreFunctionLeader`、`practicalChoice`、`developerLessons` 和 `marketOpportunities`。证据不足时不会强行给出整体胜者。

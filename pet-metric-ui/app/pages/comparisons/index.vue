@@ -83,7 +83,7 @@ watch(selected, async (value) => {
 
 onBeforeUnmount(releaseModal)
 
-useSeoMeta({ title: 'Comparisons — PetMetric', description: 'Side-by-side pet technology comparisons using consistent category criteria.' })
+useSeoMeta({ title: 'Comparisons — PetMetricus', description: 'Side-by-side pet technology comparisons using consistent category criteria.' })
 </script>
 
 <template>

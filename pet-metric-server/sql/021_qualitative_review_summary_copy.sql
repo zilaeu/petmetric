@@ -9,5 +9,5 @@ WHERE p.external_id='B09S8WMJY9';
 
 UPDATE product_user_review_summaries s
 JOIN products p ON p.id=s.product_id
-SET s.sample_note='Based on 12 featured reviews visible across the U.S. and international sections of the Amazon.com product page on 2026-09-07. Amazon selects these reviews rather than PetMetric drawing a random sample, so this summary describes only the reviews read—not every experience represented by all 6,411 ratings.'
+SET s.sample_note='Based on 12 featured reviews visible across the U.S. and international sections of the Amazon.com product page on 2026-09-07. Amazon selects these reviews rather than PetMetricus drawing a random sample, so this summary describes only the reviews read—not every experience represented by all 6,411 ratings.'
 WHERE p.external_id='B00VIXRB6O';

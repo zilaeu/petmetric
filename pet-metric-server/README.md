@@ -1,6 +1,6 @@
-# PetMetric REST API
+# PetMetricus REST API
 
-PetMetric 官网的 Node.js 查询服务。当前版本只提供公开内容查询，不包含内容后台、登录和写入接口。
+PetMetricus 官网的 Node.js 查询服务。当前版本只提供公开内容查询，不包含内容后台、登录和写入接口。
 
 ## 技术栈
 

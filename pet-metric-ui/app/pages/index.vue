@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'PetMetric — Pet product research you can actually verify.', description: 'Independent research on cat and dog products across smart home, feeding, hydration, litter, grooming, waste cleanup, walking, and safety with documented methods and practical buying guidance.' })
+useSeoMeta({ title: 'PetMetricus — Pet product research you can actually verify.', description: 'Independent research on cat and dog products across smart home, feeding, hydration, litter, grooming, waste cleanup, walking, and safety with documented methods and practical buying guidance.' })
 
 const { data: homeData } = await usePetMetricApi('home-content', '/home', {
   categories: [],

@@ -1,7 +1,7 @@
 /*
   Commerce research scope
 
-  PetMetric uses Amazon.com as its only Amazon marketplace. Commerce snapshots
+  PetMetricus uses Amazon.com as its only Amazon marketplace. Commerce snapshots
   (price, rating, review count, stock and delivery) are checked with the delivery
   country set to the United States. The country is stored with the snapshot so
   values from another regional marketplace or delivery destination are never

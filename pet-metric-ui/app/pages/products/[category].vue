@@ -145,7 +145,7 @@ const matchesFacet = (product: any, facet: FacetDefinition) => {
 }
 
 const sortOptions = computed(() => [
-  { value: 'rank', label: 'PetMetric order' },
+  { value: 'rank', label: 'PetMetricus order' },
   { value: 'rating', label: 'Highest owner rating' },
   { value: 'reviews', label: 'Most owner feedback' },
   { value: 'name', label: 'Product name A–Z' },
@@ -173,7 +173,7 @@ const reset = () => {
 }
 
 useHead(() => ({
-  title: `${effectiveMeta.value.title} — PetMetric`,
+  title: `${effectiveMeta.value.title} — PetMetricus`,
   meta: [{ name: 'description', content: effectiveMeta.value.subtitle }]
 }))
 </script>

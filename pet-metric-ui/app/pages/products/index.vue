@@ -9,11 +9,11 @@ const categories = computed(() => categoryData.value.map(category => ({
   ...category,
   criteria: category.criteria.map(criterion => typeof criterion === 'string' ? criterion : criterion.title)
 })))
-useSeoMeta({ title: 'Pet Products & Reviews — PetMetric', description: 'Browse independently researched pet products across smart home, feeding, hydration, litter, grooming, cleanup, walking, and safety categories.', ogTitle: 'Pet Products & Reviews — PetMetric', ogDescription: 'Browse independently researched pet products across practical pet-care categories.' })
+useSeoMeta({ title: 'Pet Products & Reviews — PetMetricus', description: 'Browse independently researched pet products across smart home, feeding, hydration, litter, grooming, cleanup, walking, and safety categories.', ogTitle: 'Pet Products & Reviews — PetMetricus', ogDescription: 'Browse independently researched pet products across practical pet-care categories.' })
 useHead(() => ({
   script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pet product categories',
-    itemListElement: categories.value.map((category, index) => ({ '@type': 'ListItem', position: index + 1, name: category.title, url: `https://petmetric.com/products/${category.slug}/` }))
+    itemListElement: categories.value.map((category, index) => ({ '@type': 'ListItem', position: index + 1, name: category.title, url: `https://petmetricus.com/products/${category.slug}/` }))
   }) }]
 }))
 const stats = computed(() => homeData.value.stats)

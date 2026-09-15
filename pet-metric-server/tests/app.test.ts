@@ -29,7 +29,7 @@ function repository(): ContentRepositoryLike {
   }
 }
 
-describe('PetMetric API', () => {
+describe('PetMetricus API', () => {
   it('returns database health', async () => {
     const app = await buildApp({ repository: repository(), logger: false })
     const response = await app.inject({ method: 'GET', url: '/health' })

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   // when that variable is missing during a preview build.
   const origin = configuredOrigin && !configuredOrigin.includes('localhost')
     ? configuredOrigin
-    : (requestOrigin.includes('localhost') || requestOrigin.includes('127.0.0.1') ? 'https://petmetric.com' : requestOrigin)
+    : (requestOrigin.includes('localhost') || requestOrigin.includes('127.0.0.1') ? 'https://petmetricus.com' : requestOrigin)
   const apiBase = String(config.public.apiBase || '')
   const paths = new Set(staticPaths)
 

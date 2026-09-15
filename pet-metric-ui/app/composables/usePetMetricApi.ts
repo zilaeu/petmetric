@@ -42,7 +42,7 @@ export async function usePetMetricApi<T = unknown>(key: string, path: string, fa
       failed.value = true
       const statusCode = Number((error as any)?.statusCode || (error as any)?.response?.status || 0)
       notFound.value = statusCode === 404
-      console.warn(`[PetMetric API] ${path} unavailable; using bundled fallback data.`, error)
+      console.warn(`[PetMetricus API] ${path} unavailable; using bundled fallback data.`, error)
       return fallback
     }
   }, {

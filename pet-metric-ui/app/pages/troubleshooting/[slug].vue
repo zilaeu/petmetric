@@ -22,14 +22,14 @@ const faq = computed<FaqItem[]>(() => (Array.isArray(article.value.content?.faq)
 })).filter(item => item.question && item.answer))
 
 useHead(() => ({
-  title: `${article.value.title} — PetMetric`,
+  title: `${article.value.title} — PetMetricus`,
   meta: [{ name: 'description', content: article.value.description }],
   script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetric.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Troubleshooting', item: 'https://petmetric.com/troubleshooting/' },
-      { '@type': 'ListItem', position: 3, name: article.value.title, item: `https://petmetric.com/troubleshooting/${String(route.params.slug)}/` }
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Troubleshooting', item: 'https://petmetricus.com/troubleshooting/' },
+      { '@type': 'ListItem', position: 3, name: article.value.title, item: `https://petmetricus.com/troubleshooting/${String(route.params.slug)}/` }
     ]
   }) }, ...(faq.value.length ? [{ type: 'application/ld+json', innerHTML: JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.value.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }) }] : [])]
 }))
@@ -53,7 +53,7 @@ useHead(() => ({
         <section id="when-to-contact-support" class="article-section"><h2>When to contact support</h2><p>{{ article.content?.support || 'Contact support if the same failure returns after a clean power cycle and the documented reset, or if the product is under warranty. Include the serial number, purchase date, error state and the steps you already tried.' }}</p><ul v-if="article.content?.supportChecklist?.length"><li v-for="item in article.content.supportChecklist" :key="item">{{ item }}</li></ul></section>
         <section v-if="faq.length" id="common-questions" class="article-section article-faq"><p class="design-section-label">FAQ</p><h2>Common questions</h2><details v-for="item in faq" :key="item.question"><summary>{{ item.question }}</summary><p>{{ item.answer }}</p></details></section>
         <section v-if="article.content?.sources?.length" class="article-sources"><h2>Sources and scope</h2><p>{{ article.content.sourceNote || 'Controls and light states can change with firmware. Confirm the current manufacturer instructions for your unit.' }}</p><ul><li v-for="source in article.content.sources" :key="source.label"><a :href="source.url" target="_blank" rel="noopener noreferrer">{{ source.label }} <AppIcon name="external" :size="12" /></a></li></ul></section>
-        <div class="correction-cta"><div><h3>Need to correct this guide?</h3><p>Send a source or a safer sequence and we will review it.</p></div><NuxtLink class="btn btn--accent" to="/contact/">Contact PetMetric</NuxtLink></div>
+        <div class="correction-cta"><div><h3>Need to correct this guide?</h3><p>Send a source or a safer sequence and we will review it.</p></div><NuxtLink class="btn btn--accent" to="/contact/">Contact PetMetricus</NuxtLink></div>
       </article>
       <aside class="sidebar article-sidebar"><nav class="sidebar-card" aria-label="On this page"><span class="eyebrow">On this page</span><ul><li><a href="#fixes-in-order">Fixes in order</a></li><li v-if="article.content?.causeTable?.length"><a href="#what-the-result-means">What the result means</a></li><li><a href="#when-to-contact-support">When to contact support</a></li><li v-if="faq.length"><a href="#common-questions">Common questions</a></li></ul></nav><div class="sidebar-card"><span class="eyebrow">Related paths</span><ul><li v-if="article.productSlug"><NuxtLink :to="`/reviews/${article.productSlug}/`">Read the product review</NuxtLink></li><li><NuxtLink to="/products/">Find your product</NuxtLink></li><li><NuxtLink to="/comparisons/">Compare alternatives</NuxtLink></li></ul></div></aside>
     </div></section>

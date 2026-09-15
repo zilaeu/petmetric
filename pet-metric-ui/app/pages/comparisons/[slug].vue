@@ -105,14 +105,14 @@ const productFitText = (product: any) => {
 }
 
 useHead(() => ({
-  title: `${article.value.title} — PetMetric`,
+  title: `${article.value.title} — PetMetricus`,
   meta: [{ name: 'description', content: article.value.verdict }],
   script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetric.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Comparisons', item: 'https://petmetric.com/comparisons/' },
-      { '@type': 'ListItem', position: 3, name: article.value.title, item: `https://petmetric.com/comparisons/${String(route.params.slug)}/` }
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Comparisons', item: 'https://petmetricus.com/comparisons/' },
+      { '@type': 'ListItem', position: 3, name: article.value.title, item: `https://petmetricus.com/comparisons/${String(route.params.slug)}/` }
     ]
   }) }]
 }))
@@ -208,8 +208,8 @@ useHead(() => ({
           <div><p class="design-section-label">Owner experience</p><h2>What users liked—and what caused friction</h2></div>
           <span>{{ allLatestReviewSamples ? 'Newest review snapshot' : 'Owner review snapshot' }}</span>
         </div>
-        <p v-if="allLatestReviewSamples" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in each product’s newest available reviews. We use up to 50 per product and use all available reviews when there are fewer. These are reported experiences, not PetMetric test results.</p>
-        <p v-else-if="article.userReviewSummaries.length" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in the linked review sources. These are reported experiences, not PetMetric test results.</p>
+        <p v-if="allLatestReviewSamples" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in each product’s newest available reviews. We use up to 50 per product and use all available reviews when there are fewer. These are reported experiences, not PetMetricus test results.</p>
+        <p v-else-if="article.userReviewSummaries.length" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in the linked review sources. These are reported experiences, not PetMetricus test results.</p>
         <div v-if="article.userReviewSummaries.length" class="comparison-review-grid">
           <article v-for="review in article.userReviewSummaries" :key="review.side" class="comparison-review-card">
             <header>

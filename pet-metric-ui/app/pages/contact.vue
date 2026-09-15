@@ -33,7 +33,7 @@ async function submit() {
 function reset() {
   form.type='correction'; form.name=''; form.email=''; form.url=''; form.message=''; sent.value=false
 }
-useSeoMeta({ title: 'Contact PetMetric', description: 'Submit a correction or contact the PetMetric research desk.' })
+useSeoMeta({ title: 'Contact PetMetricus', description: 'Submit a correction or contact the PetMetricus research desk.' })
 </script>
 
 <template>
@@ -54,7 +54,7 @@ useSeoMeta({ title: 'Contact PetMetric', description: 'Submit a correction or co
               <label>Name<input v-model="form.name" type="text" autocomplete="name" placeholder="Your name" required /></label>
               <label>Email<input v-model="form.email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
             </div>
-            <label v-if="form.type==='correction'">Page URL <small>(which page has the error?)</small><input v-model="form.url" type="url" placeholder="https://petmetric.com/reviews/…" /></label>
+            <label v-if="form.type==='correction'">Page URL <small>(which page has the error?)</small><input v-model="form.url" type="url" placeholder="https://petmetricus.com/reviews/…" /></label>
             <label>{{ form.type==='correction' ? "What's wrong, and what should it say?" : 'Your message' }}<textarea v-model="form.message" rows="6" required :placeholder="form.type==='correction' ? 'Describe the error and include a source if you have one…' : 'Your message…'" /></label>
             <button class="contact-submit" type="submit" :disabled="submitting">{{ submitting ? 'Sending…' : 'Send message' }}</button>
           </form>

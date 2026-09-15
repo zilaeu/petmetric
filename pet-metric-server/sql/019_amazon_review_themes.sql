@@ -9,7 +9,7 @@ JOIN products p ON p.id=s.product_id
 SET s.visible_review_count=12,
     s.sample_note=CASE p.external_id
       WHEN 'B09S8WMJY9' THEN 'Based on 12 relevant featured reviews visible across the U.S. and international sections of the Amazon.com product page on 2026-09-07. One accessory-only review was excluded. Amazon groups colors, sizes, and configurations on one listing, so theme counts are limited to this visible sample and are not frequencies across all 10,218 ratings.'
-      WHEN 'B00VIXRB6O' THEN 'Based on 12 featured reviews visible across the U.S. and international sections of the Amazon.com product page on 2026-09-07. Amazon selects these reviews rather than PetMetric drawing a random sample, so theme counts apply only to the reviews read—not all 6,411 ratings.'
+      WHEN 'B00VIXRB6O' THEN 'Based on 12 featured reviews visible across the U.S. and international sections of the Amazon.com product page on 2026-09-07. Amazon selects these reviews rather than PetMetricus drawing a random sample, so theme counts apply only to the reviews read—not all 6,411 ratings.'
       ELSE s.sample_note
     END,
     s.themes_json = CASE p.external_id

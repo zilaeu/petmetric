@@ -32,16 +32,16 @@ const tableRows = (table: GuideSection['table']) => {
 }
 
 useHead(() => ({
-  title: `${guide.value.title} — PetMetric`,
+  title: `${guide.value.title} — PetMetricus`,
   meta: [{ name: 'description', content: guide.value.desc }],
   script: [{
     type: 'application/ld+json',
     innerHTML: JSON.stringify({
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetric.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://petmetric.com/guides/' },
-        { '@type': 'ListItem', position: 3, name: guide.value.title, item: `https://petmetric.com/guides/${String(route.params.slug)}/` }
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://petmetricus.com/guides/' },
+        { '@type': 'ListItem', position: 3, name: guide.value.title, item: `https://petmetricus.com/guides/${String(route.params.slug)}/` }
       ]
     })
   }, ...(faq.value.length ? [{ type: 'application/ld+json', innerHTML: JSON.stringify({

@@ -1,4 +1,4 @@
-# PetMetric Cloudflare 部署文档
+# PetMetricus Cloudflare 部署文档
 
 本文对应 `pet-metric-ui`。站点使用 Nuxt 4 + Nitro `cloudflare-pages` preset，内容使用 D1，研究图片/媒体使用 R2。
 

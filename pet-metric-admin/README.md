@@ -1,6 +1,6 @@
-# PetMetric Admin
+# PetMetricus Admin
 
-PetMetric 内容管理后台，对接 `pet-metric-server` 的 MySQL 管理接口。
+PetMetricus 内容管理后台，对接 `pet-metric-server` 的 MySQL 管理接口。
 
 ## 本地启动
 

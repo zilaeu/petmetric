@@ -3,7 +3,7 @@ const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const canonicalOrigin = computed(() => {
   const configured = String(runtimeConfig.public.siteUrl || '').replace(/\/$/, '')
-  return configured && !configured.includes('localhost') ? configured : 'https://petmetric.com'
+  return configured && !configured.includes('localhost') ? configured : 'https://petmetricus.com'
 })
 useHead(() => ({
   link: [{ rel: 'canonical', href: `${canonicalOrigin.value}${route.path}` }],
@@ -72,8 +72,8 @@ function submitSearch() {
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" @keydown.esc="handleNavigationEscape">
     <div class="container nav-inner">
-      <NuxtLink class="brand" to="/" aria-label="PetMetric home">
-        <BrandMark /><span class="brand-name">PetMetric</span>
+      <NuxtLink class="brand" to="/" aria-label="PetMetricus home">
+        <BrandMark /><span class="brand-name">PetMetricus</span>
       </NuxtLink>
       <nav class="nav-links" aria-label="Primary navigation">
         <div v-for="item in navItems" :key="item.to" class="nav-item">
@@ -90,7 +90,7 @@ function submitSearch() {
     <div v-if="searchOpen" id="site-search-panel" class="search-panel">
       <div class="container">
         <form @submit.prevent="submitSearch">
-          <label for="site-search">Search PetMetric</label>
+          <label for="site-search">Search PetMetricus</label>
           <div class="search-input-row"><input id="site-search" ref="searchInput" v-model="searchQuery" type="search" placeholder="Try “automatic litter box”" /><button class="btn btn--accent" type="submit">Search</button></div>
         </form>
       </div>
@@ -109,13 +109,13 @@ function submitSearch() {
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <NuxtLink class="brand" to="/"><BrandMark /><span class="brand-name">PetMetric</span></NuxtLink>
+          <NuxtLink class="brand" to="/"><BrandMark /><span class="brand-name">PetMetricus</span></NuxtLink>
           <p>Independent pet technology research with documented methods, dated sources, and practical buying guidance.</p>
         </div>
         <div><p class="footer-heading">Research</p><div class="footer-links"><NuxtLink to="/comparisons/">Comparisons</NuxtLink><NuxtLink to="/best-picks/">Best Picks</NuxtLink><NuxtLink to="/troubleshooting/">Troubleshooting</NuxtLink><NuxtLink to="/guides/">Guides</NuxtLink></div></div>
-        <div><p class="footer-heading">Company</p><div class="footer-links"><NuxtLink to="/about/">About PetMetric</NuxtLink><NuxtLink to="/editorial-standards/">Editorial Standards</NuxtLink><NuxtLink to="/disclosure/">Disclosure</NuxtLink><NuxtLink to="/privacy/">Privacy</NuxtLink><NuxtLink to="/contact/">Contact</NuxtLink></div></div>
+        <div><p class="footer-heading">Company</p><div class="footer-links"><NuxtLink to="/about/">About PetMetricus</NuxtLink><NuxtLink to="/editorial-standards/">Editorial Standards</NuxtLink><NuxtLink to="/disclosure/">Disclosure</NuxtLink><NuxtLink to="/privacy/">Privacy</NuxtLink><NuxtLink to="/contact/">Contact</NuxtLink></div></div>
       </div>
-      <div class="footer-bottom"><span>© 2026 PetMetric. All product names are trademarks of their respective owners.</span><span><NuxtLink to="/disclosure/">Commercial disclosure →</NuxtLink></span></div>
+      <div class="footer-bottom"><span>© 2026 PetMetricus. All product names are trademarks of their respective owners.</span><span><NuxtLink to="/disclosure/">Commercial disclosure →</NuxtLink></span></div>
     </div>
   </footer>
 </template>

@@ -30,7 +30,7 @@ function reviewCount(value?: number | null) {
         <div>
           <div class="generic-score">
             <div><strong>{{ product.score != null ? product.score.toFixed(1) : product.amazonRating?.toFixed(1) || '—' }}</strong><span v-if="product.score != null || product.amazonRating != null">/5</span></div>
-            <p><small>{{ product.score != null ? 'PetMetric' : 'Amazon' }}</small><b>{{ product.score != null ? 'Score' : 'Rating' }}</b><small v-if="product.score == null && product.amazonReviewCount">{{ reviewCount(product.amazonReviewCount) }} reviews</small></p>
+            <p><small>{{ product.score != null ? 'PetMetricus' : 'Amazon' }}</small><b>{{ product.score != null ? 'Score' : 'Rating' }}</b><small v-if="product.score == null && product.amazonReviewCount">{{ reviewCount(product.amazonReviewCount) }} reviews</small></p>
           </div>
         </div>
         <div>

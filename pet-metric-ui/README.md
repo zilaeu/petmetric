@@ -1,6 +1,6 @@
-# PetMetric UI
+# PetMetricus UI
 
-Nuxt 4 site for PetMetric, deployed to Cloudflare Pages. The visual system follows the Figma export in `../figma-export-code`, while the content model follows `../docs`.
+Nuxt 4 site for PetMetricus, deployed to Cloudflare Pages. The visual system follows the Figma export in `../figma-export-code`, while the content model follows `../docs`.
 
 ## Local development
 

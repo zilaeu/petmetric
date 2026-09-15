@@ -1,7 +1,7 @@
 /*
   Complete qualitative owner-review coverage for the published product
   catalog. Review themes describe only the Amazon review bodies visible on
-  2026-09-07; they are not PetMetric test results or frequency estimates.
+  2026-09-07; they are not PetMetricus test results or frequency estimates.
 */
 SET NAMES utf8mb4;
 

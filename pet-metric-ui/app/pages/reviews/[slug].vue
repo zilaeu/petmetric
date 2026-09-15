@@ -112,7 +112,7 @@ const researchInfo = computed(() => [
 ])
 
 useHead(() => ({
-  title: `${product.value.name} review — PetMetric`,
+  title: `${product.value.name} review — PetMetricus`,
   meta: [{ name: 'description', content: product.value.verdict }],
   script: [{
     type: 'application/ld+json',
@@ -123,10 +123,10 @@ useHead(() => ({
       image: product.value.img ? [product.value.img] : undefined,
       brand: product.value.brand ? { '@type': 'Brand', name: product.value.brand } : undefined,
       sku: product.value.id,
-      url: `https://petmetric.com/reviews/${String(route.params.slug)}/`,
+      url: `https://petmetricus.com/reviews/${String(route.params.slug)}/`,
       offers: product.value.price != null ? {
         '@type': 'Offer',
-        url: product.value.merchantUrl || `https://petmetric.com/reviews/${String(route.params.slug)}/`,
+        url: product.value.merchantUrl || `https://petmetricus.com/reviews/${String(route.params.slug)}/`,
         priceCurrency: 'USD',
         price: Number(product.value.price).toFixed(2),
         availability: /in stock/i.test(String(product.value.availability || ''))
@@ -144,9 +144,9 @@ useHead(() => ({
     innerHTML: JSON.stringify({
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetric.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://petmetric.com/products/' },
-        { '@type': 'ListItem', position: 3, name: `${product.value.name} Review`, item: `https://petmetric.com/reviews/${String(route.params.slug)}/` }
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://petmetricus.com/products/' },
+        { '@type': 'ListItem', position: 3, name: `${product.value.name} Review`, item: `https://petmetricus.com/reviews/${String(route.params.slug)}/` }
       ]
     })
   }, {
@@ -165,7 +165,7 @@ useHead(() => ({
       { label: `${product.name} Review` }
     ]" />
 
-    <section class="review-hero"><div class="container review-hero-grid"><div class="review-gallery"><div class="review-main-image"><img v-if="galleryImages.length" :src="galleryImages[activeImage]" :alt="product.alt" /><div v-else class="empty-state">Image unavailable</div></div><div v-if="galleryImages.length > 1" class="review-thumbs"><button v-for="(image,index) in galleryImages" :key="image" type="button" :class="{active:activeImage===index}" :aria-label="`View image ${index + 1}`" @click="activeImage=index"><img :src="image" alt="" /></button></div></div><div class="review-buy-panel"><p class="design-section-label">{{ product.brand }} · Product review</p><h1 class="display">{{ product.name }}</h1><div class="review-best-for"><strong>Best for:</strong> {{ reviewBestFor }}</div><div class="review-score"><strong>{{ product.score != null ? Number(product.score).toFixed(1) : product.amazonRating != null ? Number(product.amazonRating).toFixed(1) : '—' }}</strong><div><b>{{ product.score != null ? 'PetMetric Score' : 'Amazon rating' }}</b><span>{{ product.score != null ? 'Average across evaluated criteria' : `${product.amazonReviewCount == null ? 'Customer review count not captured' : `${Number(product.amazonReviewCount).toLocaleString('en-US')} customer ratings`} · checked ${formatReviewDate(product.commerceCheckedAt, 'date unavailable')}` }}</span></div></div><div class="review-price"><strong>{{ displayPrice }}</strong><span>Amazon.com US price at last check</span><p><template v-if="product.marketplaceDomain === 'amazon.com'">Delivery location: United States · </template>{{ product.subscription || 'No subscription information shown' }}</p><a v-if="product.merchantUrl" class="btn btn--accent" :href="product.merchantUrl" target="_blank" rel="sponsored nofollow noopener">Check current Amazon listing <AppIcon name="external" :size="14" /></a><small class="affiliate-note">We may earn a commission from eligible purchases. This does not affect our editorial conclusion.</small></div><div class="quick-specs"><div v-for="spec in heroSpecs" :key="`${spec[0]}-${spec[1]}`"><span>{{ spec[0] }}</span><strong>{{ spec[1] }}</strong></div></div></div></div></section>
+    <section class="review-hero"><div class="container review-hero-grid"><div class="review-gallery"><div class="review-main-image"><img v-if="galleryImages.length" :src="galleryImages[activeImage]" :alt="product.alt" /><div v-else class="empty-state">Image unavailable</div></div><div v-if="galleryImages.length > 1" class="review-thumbs"><button v-for="(image,index) in galleryImages" :key="image" type="button" :class="{active:activeImage===index}" :aria-label="`View image ${index + 1}`" @click="activeImage=index"><img :src="image" alt="" /></button></div></div><div class="review-buy-panel"><p class="design-section-label">{{ product.brand }} · Product review</p><h1 class="display">{{ product.name }}</h1><div class="review-best-for"><strong>Best for:</strong> {{ reviewBestFor }}</div><div class="review-score"><strong>{{ product.score != null ? Number(product.score).toFixed(1) : product.amazonRating != null ? Number(product.amazonRating).toFixed(1) : '—' }}</strong><div><b>{{ product.score != null ? 'PetMetricus Score' : 'Amazon rating' }}</b><span>{{ product.score != null ? 'Average across evaluated criteria' : `${product.amazonReviewCount == null ? 'Customer review count not captured' : `${Number(product.amazonReviewCount).toLocaleString('en-US')} customer ratings`} · checked ${formatReviewDate(product.commerceCheckedAt, 'date unavailable')}` }}</span></div></div><div class="review-price"><strong>{{ displayPrice }}</strong><span>Amazon.com US price at last check</span><p><template v-if="product.marketplaceDomain === 'amazon.com'">Delivery location: United States · </template>{{ product.subscription || 'No subscription information shown' }}</p><a v-if="product.merchantUrl" class="btn btn--accent" :href="product.merchantUrl" target="_blank" rel="sponsored nofollow noopener">Check current Amazon listing <AppIcon name="external" :size="14" /></a><small class="affiliate-note">We may earn a commission from eligible purchases. This does not affect our editorial conclusion.</small></div><div class="quick-specs"><div v-for="spec in heroSpecs" :key="`${spec[0]}-${spec[1]}`"><span>{{ spec[0] }}</span><strong>{{ spec[1] }}</strong></div></div></div></div></section>
 
     <nav class="review-tabs-wrap"><div class="container review-tabs"><button :class="{active:activeTab==='overview'}" @click="activeTab='overview'">Overview</button><button :class="{active:activeTab==='specs'}" @click="activeTab='specs'">Full Specs</button></div></nav>
 

@@ -36,7 +36,7 @@ const guideFaq = [
   { question: 'What if my question is not covered?', answer: 'Send us the decision you are trying to make. Useful reader questions help us prioritize new explainers and clarify confusing sections in existing guides.' }
 ]
 
-useSeoMeta({ title: 'Guides — PetMetric', description: 'Topic-based buying guides for pet technology.' })
+useSeoMeta({ title: 'Guides — PetMetricus', description: 'Topic-based buying guides for pet technology.' })
 </script>
 
 <template>

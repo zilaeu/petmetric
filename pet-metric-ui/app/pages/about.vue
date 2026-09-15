@@ -4,7 +4,7 @@ const categories = computed(() => categoryData.value.slice(0, 20))
 const { data: pageData } = await usePetMetricApi<any>('about-page', '/pages/about', null)
 const { data: homeData } = await usePetMetricApi<any>('about-stats', '/home', { stats: { productsResearched: '—', productCategories: '—', comparisonsPublished: '—', guidesPublished: '—' } })
 const stats = computed(() => homeData.value.stats)
-const aboutTitle = computed(() => pageData.value?.title || 'About PetMetric')
+const aboutTitle = computed(() => pageData.value?.title || 'About PetMetricus')
 const aboutDescription = computed(() => pageData.value?.description || 'Independent research for clearer pet technology decisions.')
 
 const researchSteps = [
@@ -29,18 +29,18 @@ const boundaries = [
   'We do not present hands-on testing unless we actually performed it and describe the scope of that evaluation.'
 ]
 
-useSeoMeta({ title: 'About PetMetric — Independent pet technology research', description: 'Learn why PetMetric exists, what we cover, how our research works, and the promises that guide every page.' })
+useSeoMeta({ title: 'About PetMetricus — Independent pet technology research', description: 'Learn why PetMetricus exists, what we cover, how our research works, and the promises that guide every page.' })
 </script>
 
 <template>
   <div>
-    <DesignHero variant="about" eyebrow="About PetMetric" :title="aboutTitle" :subtitle="aboutDescription" :breadcrumb="[{label:'Home',to:'/'},{label:'About'}]" />
+    <DesignHero variant="about" eyebrow="About PetMetricus" :title="aboutTitle" :subtitle="aboutDescription" :breadcrumb="[{label:'Home',to:'/'},{label:'About'}]" />
     <section class="company-section">
       <div class="company-container">
         <div class="company-two-col company-two-col--intro">
           <div><p class="design-section-label">Why we exist</p><h2 class="display">Pet technology should solve a real problem—not create a new one.</h2></div>
           <div>
-            <p>PetMetric is an independent research publication for people choosing connected and automated products for their pets. We turn specifications, subscriptions, safety claims, app features, and ownership tradeoffs into practical decisions.</p>
+            <p>PetMetricus is an independent research publication for people choosing connected and automated products for their pets. We turn specifications, subscriptions, safety claims, app features, and ownership tradeoffs into practical decisions.</p>
             <p>The category moves quickly: product names change, firmware alters behavior, features move behind paywalls, and retailer listings mix generations or regional variants. Our job is to slow that decision down, show what is known, and make uncertainty easy to see.</p>
             <p>We are built for readers who want more than a “best overall” badge—especially when a pet's size, routine, diet, behavior, or home environment means the popular choice may not be the right one.</p>
           </div>
@@ -78,7 +78,7 @@ useSeoMeta({ title: 'About PetMetric — Independent pet technology research', d
 
     <section class="rich-content-section rich-content-section--muted">
       <div class="company-container rich-split-layout">
-        <div><p class="design-section-label">Our boundaries</p><h2 class="display">What PetMetric does not claim to be.</h2><p class="rich-lead">Clear limits protect readers from overconfidence. Our research supports a purchase or troubleshooting decision; it does not replace professional care, manufacturer safety instructions, or a final pre-purchase check.</p></div>
+        <div><p class="design-section-label">Our boundaries</p><h2 class="display">What PetMetricus does not claim to be.</h2><p class="rich-lead">Clear limits protect readers from overconfidence. Our research supports a purchase or troubleshooting decision; it does not replace professional care, manufacturer safety instructions, or a final pre-purchase check.</p></div>
         <ul class="rich-check-list rich-check-list--plain"><li v-for="item in boundaries" :key="item"><AppIcon name="check" :size="18" /><span>{{ item }}</span></li></ul>
       </div>
     </section>

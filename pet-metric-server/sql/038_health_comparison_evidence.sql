@@ -49,7 +49,7 @@ SELECT p.id,'Whistle product reviews','https://www.whistle.com/products/whistle-
     JSON_OBJECT('label','Subscription and alerts create friction','mentions',4,'kind','concern','detail','Owners mention the recurring plan, delayed syncs, false alerts, or connection issues as reasons to verify important changes in person.'),
     JSON_OBJECT('label','Data is a prompt, not a diagnosis','mentions',3,'kind','mixed','detail','Owners use trends to decide when to look closer, but the device cannot explain the cause of a behavior change.')
   ),
-  'Based on six owner-review excerpts visible on the Whistle product review page checked 2026-09-09; this is not a random sample of all ratings and is not a PetMetric performance test.'
+  'Based on six owner-review excerpts visible on the Whistle product review page checked 2026-09-09; this is not a random sample of all ratings and is not a PetMetricus performance test.'
 FROM products p WHERE p.external_id='health-whistle-health'
 ON DUPLICATE KEY UPDATE source_name=VALUES(source_name),source_url=VALUES(source_url),checked_at=VALUES(checked_at),rating=VALUES(rating),review_count=VALUES(review_count),visible_review_count=VALUES(visible_review_count),rating_distribution_json=VALUES(rating_distribution_json),summary=VALUES(summary),positives_json=VALUES(positives_json),concerns_json=VALUES(concerns_json),themes_json=VALUES(themes_json),sample_note=VALUES(sample_note);
 

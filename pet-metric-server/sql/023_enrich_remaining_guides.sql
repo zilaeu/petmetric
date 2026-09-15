@@ -95,7 +95,7 @@ content_json=JSON_OBJECT(
     JSON_OBJECT('question','Which is better for multiple cats?','answer','Capacity and maintenance frequency matter more than the material label. Use the maker’s cat-capacity guidance as a ceiling and measure how quickly the drawer, litter, or tray reaches its practical limit.'),
     JSON_OBJECT('question','Can I flush clumping litter?','answer','Do not assume so. Plumbing, municipal rules, pathogens, and product composition vary. Follow local disposal rules and the litter and machine manufacturers’ instructions.')
   ),
-  'sourceNote','The worked prices are illustrative. PetMetric does not treat them as current market prices or a universal consumption rate.',
+  'sourceNote','The worked prices are illustrative. PetMetricus does not treat them as current market prices or a universal consumption rate.',
   'sources',JSON_ARRAY(JSON_OBJECT('label','PetSafe Support — self-cleaning litter boxes','url','https://support.petsafe.net/s/topic/0TO4X000000kIgBWAU/selfcleaning-litter-boxes'),JSON_OBJECT('label','Whisker Support — litter guidance','url','https://www.litter-robot.com/support'))
 ) WHERE slug='clumping-vs-crystal-litter';
 

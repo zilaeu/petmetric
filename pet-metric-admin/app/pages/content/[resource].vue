@@ -69,7 +69,7 @@ function fieldType(column: string) {
   if (column.includes('email')) return 'email'
   return 'text'
 }
-useSeoMeta(() => ({ title: `${schema.value.title} — PetMetric Admin` }))
+useSeoMeta(() => ({ title: `${schema.value.title} — PetMetricus Admin` }))
 </script>
 
 <template>

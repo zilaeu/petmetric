@@ -708,8 +708,8 @@ export class ContentRepository {
           item.userFeedback = {
             status: 'researched',
             summary: latestSamples.length === item.userReviewSummaries.length
-              ? `Customer-review themes were coded from ${visibleTotal} newest-first Amazon reviews across the two products, using up to 50 reviews per product. They are ownership signals to investigate, not PetMetric performance-test results.`
-              : `Customer-review themes were coded from ${visibleTotal} reviews available in the linked Amazon snapshots. They are ownership signals to investigate, not PetMetric performance-test results.`,
+              ? `Customer-review themes were coded from ${visibleTotal} newest-first Amazon reviews across the two products, using up to 50 reviews per product. They are ownership signals to investigate, not PetMetricus performance-test results.`
+              : `Customer-review themes were coded from ${visibleTotal} reviews available in the linked Amazon snapshots. They are ownership signals to investigate, not PetMetricus performance-test results.`,
             sampleLimit: latestSamples.length === item.userReviewSummaries.length
               ? 'Each product uses its latest 50 readable reviews, or every readable review when Amazon reports fewer than 50. A listing may combine multiple variants.'
               : 'Amazon may select which reviews are visible, and a listing may combine multiple variants. Theme presence does not show how common an experience is across all ratings.'
@@ -924,7 +924,7 @@ export class ContentRepository {
           attribute('dimensions', 'Product dimensions', aAttributes.get('dimensions')?.value, bAttributes.get('dimensions')?.value),
           attribute('weight', 'Item weight', aAttributes.get('weight')?.value, bAttributes.get('weight')?.value),
           attribute('price', 'Amazon.com US price at last check', a.price === null ? null : a.price_display, b.price === null ? null : b.price_display, configurationsDiffer ? 'Current listings may be different configurations; price is not used to declare a functional winner.' : 'Price is a dated snapshot for delivery to the United States.'),
-          attribute('rating', 'Amazon.com customer rating', a.amazon_rating === null ? null : `${Number(a.amazon_rating).toFixed(1)} / 5`, b.amazon_rating === null ? null : `${Number(b.amazon_rating).toFixed(1)} / 5`, 'Amazon.com customer rating, not a PetMetric editor score.'),
+          attribute('rating', 'Amazon.com customer rating', a.amazon_rating === null ? null : `${Number(a.amazon_rating).toFixed(1)} / 5`, b.amazon_rating === null ? null : `${Number(b.amazon_rating).toFixed(1)} / 5`, 'Amazon.com customer rating, not a PetMetricus editor score.'),
           attribute('review_count', 'Amazon.com review count', a.amazon_rating === null ? null : Number(a.amazon_review_count ?? 0).toLocaleString('en-US'), b.amazon_rating === null ? null : Number(b.amazon_review_count ?? 0).toLocaleString('en-US'), 'Review volume is context only and is not treated as proof of a function.'),
           attribute('availability', 'US availability at last check', availabilityA === 'Not verified' ? null : availabilityA, availabilityB === 'Not verified' ? null : availabilityB, 'Availability is a dated Amazon.com snapshot for delivery to the United States.'),
           attribute('subscription', 'Required subscription', subscriptionA === 'Not verified' ? null : subscriptionA, subscriptionB === 'Not verified' ? null : subscriptionB, 'Optional consumables and service plans may still add ongoing cost.'),
