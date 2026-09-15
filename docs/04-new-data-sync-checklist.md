@@ -63,6 +63,10 @@
 
 ## 3. 前端同步
 
+- [ ] 完成 MySQL 迁移后，在 `pet-metric-ui` 运行 `npm run content:sync`，把分类、全部商品详情字段、对比决策数据、Best Picks、Guides、Troubleshooting 和静态内容页同步到 Cloudflare 使用的 `server/data/content.json`。
+- [ ] 同步前确认本地内容 API `http://localhost:4000/health` 返回 200；如使用其他源地址，通过 `PETMETRIC_CONTENT_API` 指定 API 根地址。
+- [ ] 不允许只同步列表接口：商品必须逐条同步详情接口，否则 `product_reviews`、用户评论摘要和来源事实会丢失。
+- [ ] 对比同步必须保留 `bestFor`、`productAttributes`、`criteria`、`researchConclusion`、`userReviewSummaries`、`userFeedback`、`matchType/matchLabel/whyCompare` 和 `scope/controversy/decisionRule`。
 - [ ] `app/composables/useCategoryOptions.ts` 增加 fallback 分类，并确认不要继续截断新分类。
 - [ ] `app/pages/products/[category].vue`
   - `criterionIcons`
@@ -87,6 +91,10 @@
 - [ ] 新增内容写入新的、可重复执行的 `pet-metric-server/sql/*.sql` 迁移文件。
 - [ ] 执行 `npm run db:migrate`。
 - [ ] 检查分类统计是否等于实际发布记录。
+- [ ] 检查每个分类的 `subtitle` 和 `criteria.title/description`，不能把 criteria 字符串当数组下标读取。
+- [ ] 检查每个产品的 `asin`、`amazonVerified`、`sourceFacts` 和 `specDetails` 均已进入部署数据；内部数据库 ID 不能代替 ASIN 展示。
+- [ ] 检查 Best Picks 指向商品详情时使用 `/reviews/{productSlug}/`，而不是不存在的 `/products/{productSlug}/`。
+- [ ] 检查没有真实价格、库存或用户评论样本时展示明确的“未采集/未验证”状态，不隐藏证据缺口，也不生成推测值。
 - [ ] 检查产品、对比、Best Pick、指南、故障排除详情页 HTTP 状态均为 200。
 - [ ] 检查新增产品详情页不会因 JSON 对象/数组格式差异触发 SSR 错误。
 - [ ] 执行 Server tests/build 和 UI build。

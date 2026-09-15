@@ -87,6 +87,7 @@ function productDto(row: DbRow) {
     rank: Number(row.rank_order),
     featured: Boolean(row.is_featured),
     amazonVerified,
+    sourceFacts,
     tags: [] as string[],
     specs: sourceFacts.map((fact) => fact.value),
     specDetails: sourceFactDetails,
@@ -96,6 +97,11 @@ function productDto(row: DbRow) {
 
 function comparisonDto(row: DbRow) {
   const content = parseJson<Record<string, unknown>>(row.content_json, {})
+  const comparisonType = String(content.comparisonType ?? content.matchLabel ?? 'Direct alternative')
+  const whyCompare = String(content.whyCompare ?? '')
+  const scope = String(content.scope ?? '')
+  const controversy = String(content.controversy ?? '')
+  const decisionRule = String(content.decisionRule ?? '')
   return {
     id: Number(row.id),
     categoryId: Number(row.category_id),
@@ -115,7 +121,13 @@ function comparisonDto(row: DbRow) {
     href: `/comparisons/${String(row.slug)}/`,
     featured: Boolean(row.is_featured),
     decisionQuestion: String(content.decisionQuestion ?? 'Which product better fits your pet, household, and ownership priorities?'),
-    comparisonType: String(content.comparisonType ?? 'Direct alternative'),
+    comparisonType,
+    matchType: content.matchType ? String(content.matchType) : null,
+    matchLabel: content.matchLabel ? String(content.matchLabel) : comparisonType,
+    whyCompare,
+    scope,
+    controversy,
+    decisionRule,
     bestFor: [] as Array<{ pick: string; who: string }>,
     listingFacts: [] as Array<{ label: string; aVal: string; bVal: string; aStatus: EvidenceStatus; bStatus: EvidenceStatus; aSourceUrl?: string | null; bSourceUrl?: string | null }>,
     productAttributes: [] as Array<{ key: string; label: string; aVal: string; bVal: string; aStatus: EvidenceStatus; bStatus: EvidenceStatus; aSourceUrl?: string | null; bSourceUrl?: string | null; note?: string }>,
@@ -125,7 +137,7 @@ function comparisonDto(row: DbRow) {
     marketplace: 'Amazon.com',
     deliveryCountry: 'United States',
     currency: 'USD',
-    scopeNote: 'Amazon.com listing facts checked with delivery set to the United States. Product fit, safety, reliability, and long-term ownership have not yet been independently verified.',
+    scopeNote: scope || whyCompare || 'Amazon.com listing facts checked with delivery set to the United States. Product fit, safety, reliability, and long-term ownership have not yet been independently verified.',
     decisionGaps: [] as string[],
     products: [] as Array<{ side: 'a' | 'b'; name: string; brand: string; asin: string | null; variant: string; img: unknown; merchantUrl: unknown; structure: string; dimensions: string; weight: string; capacity: string }>,
     userReviewSummaries: [] as Array<{ side: 'a' | 'b'; productName: string; rating: number | null; reviewCount: number | null; visibleReviewCount: number; sampleMethod: string | null; sampleTargetCount: number | null; sampleNewestReviewAt: string | null; sampleOldestReviewAt: string | null; checkedAt: string | null; sourceName: string; sourceUrl: string; ratingDistribution: Record<string, number>; summary: string; positives: string[]; concerns: string[]; themes: Array<{ label: string; mentions: number; kind: 'positive' | 'mixed' | 'concern'; detail: string }>; sampleNote: string }>,
@@ -204,6 +216,12 @@ function guideDto(row: DbRow) {
 }
 
 function troubleDto(row: DbRow) {
+  const content = parseJson<Record<string, unknown>>(row.content_json, {})
+  const productAsin = String(row.product_external_id ?? '')
+  const productUrl = amazonUsUrl(productAsin, row.product_merchant_url)
+  if ((!Array.isArray(content.sources) || content.sources.length === 0) && productUrl) {
+    content.sources = [{ label: `${String(row.product_name)} — checked Amazon.com listing`, url: productUrl }]
+  }
   return {
     id: Number(row.id),
     slug: String(row.slug),
@@ -221,7 +239,7 @@ function troubleDto(row: DbRow) {
     updated: String(row.updated_label),
     href: `/troubleshooting/${String(row.slug)}/`,
     steps: [] as string[],
-    content: parseJson(row.content_json, {})
+    content
   }
 }
 
@@ -698,9 +716,14 @@ export class ContentRepository {
           }
         }
         item.checkedAt = isoDate(a.commerce_checked_at) === isoDate(b.commerce_checked_at) ? isoDate(a.commerce_checked_at) : null
-        item.scopeNote = configurationsDiffer
+        if (!item.whyCompare) {
+          item.whyCompare = item.comparisonType === 'Workflow comparison'
+            ? `${aName} and ${bName} solve adjacent parts of the ownership routine. This comparison clarifies which job each product performs; they are not interchangeable substitutes.`
+            : `${aName} and ${bName} address the same core buying decision with different product, fit, maintenance, and ownership-cost trade-offs.`
+        }
+        item.scopeNote = item.scope || (configurationsDiffer
           ? 'The current Amazon.com US listings may use different configurations (for example, a supply bundle versus a device listing). Listed USD prices are shown for reference and are not treated as a fair value comparison.'
-          : 'This quick comparison uses Amazon.com listing facts with delivery set to the United States. Pet fit, safety, reliability, cleaning effort, and long-term ownership still require independent verification.'
+          : 'This quick comparison uses Amazon.com listing facts with delivery set to the United States. Pet fit, safety, reliability, cleaning effort, and long-term ownership still require independent verification.')
         const categoryGaps: Record<string, string[]> = {
           'automatic-litter-boxes': ['Minimum cat weight and kitten safety', 'Interior space and large-cat fit', 'Sensor reliability and anti-pinch design', 'Litter compatibility, noise, cleaning effort, and annual consumable cost'],
           'gps-pet-trackers': ['Coverage in the owner’s actual area', 'Live-mode battery life and location refresh interval', 'Collar fit, device weight, waterproofing, and escape risk', 'Required plan and full first-year cost'],
@@ -1007,7 +1030,9 @@ export class ContentRepository {
     const from = `FROM troubleshooting_guides x JOIN categories c ON c.id=x.category_id LEFT JOIN products p ON p.id=x.product_id WHERE ${where.join(' AND ')}`
     const [countRows] = await this.db.query<DbRow[]>(`SELECT COUNT(*) total ${from}`, params)
     const [rows] = await this.db.query<DbRow[]>(
-      `SELECT x.*, c.slug category_slug, c.title category_title, p.slug product_slug ${from} ORDER BY ${query.sort === 'popular' ? 'x.views_count DESC' : 'x.sort_order, x.id'} LIMIT ? OFFSET ?`,
+      `SELECT x.*, c.slug category_slug, c.title category_title, p.slug product_slug,
+              p.external_id product_external_id, p.merchant_url product_merchant_url
+       ${from} ORDER BY ${query.sort === 'popular' ? 'x.views_count DESC' : 'x.sort_order, x.id'} LIMIT ? OFFSET ?`,
       [...params, query.limit, (query.page - 1) * query.limit]
     )
     const items = rows.map(troubleDto)
@@ -1017,7 +1042,8 @@ export class ContentRepository {
 
   async getTroubleshooting(slug: string) {
     const [rows] = await this.db.execute<DbRow[]>(
-      `SELECT x.*, c.slug category_slug, c.title category_title, p.slug product_slug
+      `SELECT x.*, c.slug category_slug, c.title category_title, p.slug product_slug,
+              p.external_id product_external_id, p.merchant_url product_merchant_url
        FROM troubleshooting_guides x JOIN categories c ON c.id=x.category_id LEFT JOIN products p ON p.id=x.product_id
        WHERE x.slug=? AND x.is_published=TRUE LIMIT 1`, [slug]
     )

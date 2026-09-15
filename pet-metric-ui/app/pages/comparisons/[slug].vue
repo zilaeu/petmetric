@@ -20,11 +20,15 @@ const article = computed(() => {
     decisionQuestion: current.decisionQuestion || 'Which product better fits your pet and household?',
     comparisonType: current.comparisonType || 'Direct alternative',
     scopeNote: current.scopeNote || '',
+    whyCompare: current.whyCompare || '',
+    controversy: current.controversy || '',
+    decisionRule: current.decisionRule || '',
     bestFor: current.bestFor || [],
     rows: current.criteria || [],
     attributes: (current.productAttributes || []).filter((row: any) => row.key !== 'catalog_order'),
     products: current.products || [],
     userReviewSummaries: current.userReviewSummaries || [],
+    userFeedback: current.userFeedback || null,
     researchConclusion: current.researchConclusion || { coreFunctionLeader: 'Not established.', practicalChoice: 'Not established.', developerLessons: [], marketOpportunities: [] }
   }
 })
@@ -132,6 +136,11 @@ useHead(() => ({
           </article>
         </div>
         <p v-if="article.scopeNote" class="comparison-scope-note">{{ article.scopeNote }}</p>
+        <div v-if="article.whyCompare || article.controversy || article.decisionRule" class="comparison-decision-context">
+          <article v-if="article.whyCompare"><span>Why compare these products</span><p>{{ article.whyCompare }}</p></article>
+          <article v-if="article.controversy"><span>Where this comparison can mislead</span><p>{{ article.controversy }}</p></article>
+          <article v-if="article.decisionRule"><span>Decision rule</span><p>{{ article.decisionRule }}</p></article>
+        </div>
       </section>
 
       <section v-if="article.products.length" class="comparison-product-identities" aria-label="Products being compared">
@@ -194,14 +203,14 @@ useHead(() => ({
         </div>
       </details>
 
-      <section v-if="article.userReviewSummaries.length" id="user-reviews" class="comparison-section-block comparison-user-reviews">
+      <section v-if="article.userReviewSummaries.length || article.userFeedback" id="user-reviews" class="comparison-section-block comparison-user-reviews">
         <div class="comparison-section-heading">
           <div><p class="design-section-label">Owner experience</p><h2>What users liked—and what caused friction</h2></div>
           <span>{{ allLatestReviewSamples ? 'Newest review snapshot' : 'Owner review snapshot' }}</span>
         </div>
         <p v-if="allLatestReviewSamples" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in each product’s newest available reviews. We use up to 50 per product and use all available reviews when there are fewer. These are reported experiences, not PetMetric test results.</p>
-        <p v-else class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in the linked review sources. These are reported experiences, not PetMetric test results.</p>
-        <div class="comparison-review-grid">
+        <p v-else-if="article.userReviewSummaries.length" class="comparison-user-reviews-intro">A practical summary of the product advantages and problems described in the linked review sources. These are reported experiences, not PetMetric test results.</p>
+        <div v-if="article.userReviewSummaries.length" class="comparison-review-grid">
           <article v-for="review in article.userReviewSummaries" :key="review.side" class="comparison-review-card">
             <header>
               <div>
@@ -236,6 +245,11 @@ useHead(() => ({
             </footer>
           </article>
         </div>
+        <div v-else class="comparison-review-empty">
+          <h3>Owner-review sample not yet verified</h3>
+          <p>{{ article.userFeedback.summary }}</p>
+          <p>{{ article.userFeedback.sampleLimit }}</p>
+        </div>
       </section>
 
       <section id="conclusion" class="comparison-section-block">
@@ -246,7 +260,7 @@ useHead(() => ({
       <div class="correction-cta"><div><h3>See something that changed?</h3><p>Send us the exact source, marketplace, and variant so we can re-check this comparison.</p></div><NuxtLink class="btn btn--accent" to="/contact/">Submit a correction</NuxtLink></div>
     </article>
 
-    <aside class="sidebar comparison-sidebar"><nav class="sidebar-card" aria-label="On this page"><span class="eyebrow">On this page</span><ul><li v-if="keyDifferences.length"><a href="#key-differences">Key differences</a></li><li><a href="#core-functions">Core functions</a></li><li><a href="#specifications">Specifications</a></li><li v-if="article.userReviewSummaries.length"><a href="#user-reviews">User reviews</a></li><li><a href="#conclusion">Conclusion</a></li></ul></nav><div class="sidebar-card"><span class="eyebrow">Continue research</span><ul><li><NuxtLink to="/products/">Browse product database</NuxtLink></li><li><NuxtLink to="/best-picks/">Read our Best Picks</NuxtLink></li><li><NuxtLink to="/editorial-standards/">How we compare</NuxtLink></li></ul></div></aside>
+    <aside class="sidebar comparison-sidebar"><nav class="sidebar-card" aria-label="On this page"><span class="eyebrow">On this page</span><ul><li v-if="keyDifferences.length"><a href="#key-differences">Key differences</a></li><li><a href="#core-functions">Core functions</a></li><li><a href="#specifications">Specifications</a></li><li v-if="article.userReviewSummaries.length || article.userFeedback"><a href="#user-reviews">User reviews</a></li><li><a href="#conclusion">Conclusion</a></li></ul></nav><div class="sidebar-card"><span class="eyebrow">Continue research</span><ul><li><NuxtLink to="/products/">Browse product database</NuxtLink></li><li><NuxtLink to="/best-picks/">Read our Best Picks</NuxtLink></li><li><NuxtLink to="/editorial-standards/">How we compare</NuxtLink></li></ul></div></aside>
     </div></section>
   </div>
 </template>
