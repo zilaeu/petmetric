@@ -9,12 +9,14 @@ const { data: homeData } = await usePetMetricApi('home-content', '/home', {
   stats: { productsResearched: '—', productCategories: '—', comparisonsPublished: '—', guidesPublished: '—' }
 })
 const homeCategories = computed(() => homeData.value.categories || [])
-const homeBestPicks = computed(() => homeData.value.bestPicks || [])
 const homeHero = computed(() => homeData.value.hero || {})
 const homeStats = computed(() => homeData.value.stats || { productsResearched: '—', productCategories: '—', comparisonsPublished: '—', guidesPublished: '—' })
 const homeMethodology = computed(() => homeData.value.methodology?.length ? homeData.value.methodology : [{ icon:'source', title:'Documented methods', body:'Every research decision is recorded: which specs were compared, which sources were consulted, and on what date.' },{ icon:'clock', title:'Dated and updated', body:'Pages show a last-checked date and are flagged for review when price, spec, or availability changes.' },{ icon:'refresh', title:'Error correction', body:'Readers can submit corrections. Verified changes are applied and noted on the page with a changelog entry.' },{ icon:'target', title:'Practical conclusions', body:'Every verdict explains who a product suits, the trade-offs that matter, and what to check before buying.' }])
-const homeComparisons = computed(() => (homeData.value.comparisons || []).map((item: any) => ({ ...item, verdict: item.homeVerdict || item.verdict })))
-const homeTroubles = computed(() => homeData.value.troubleshooting || [])
+// Keep the homepage decision modules intentionally scannable. The library
+// pages remain the complete source; the homepage is only a short entry point.
+const homeComparisons = computed(() => (homeData.value.comparisons || []).slice(0, 3).map((item: any) => ({ ...item, verdict: item.homeVerdict || item.verdict })))
+const homeBestPicks = computed(() => (homeData.value.bestPicks || []).slice(0, 8))
+const homeTroubles = computed(() => (homeData.value.troubleshooting || []).slice(0, 3))
 </script>
 
 <template>

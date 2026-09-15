@@ -352,6 +352,7 @@ button, .link-card, .category-card, .article-card { cursor: pointer; }
 .home-versus strong { font: 600 17px var(--font-display); }
 .home-versus span { padding: 2px 8px; color: var(--muted-foreground); background: var(--muted); border-radius: 2px; font: 500 11px var(--font-mono); }
 .home-list-card p { margin: 0; color: var(--muted-foreground); font-size: 13.5px; }
+.home-list:not(.home-list--dark) .home-list-card p { display: -webkit-box; min-height: calc(1.55em * 2); overflow: hidden; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .home-list-side { text-align: right; }
 .home-list-side span { display: block; margin-bottom: 4px; color: var(--muted-foreground); font: 11.5px var(--font-mono); }
 .home-list-side svg { color: var(--accent); }
