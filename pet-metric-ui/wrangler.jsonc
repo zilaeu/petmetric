@@ -8,7 +8,8 @@
   "vars": {
     "SITE_NAME": "PetMetric",
     "SITE_DESCRIPTION": "Independent pet technology research for better everyday decisions.",
-    "CONTACT_EMAIL": "hello@petmetric.com"
+    "CONTACT_EMAIL": "hello@petmetric.com",
+    "NUXT_PUBLIC_GA_MEASUREMENT_ID": "G-5VKV9Y6YVE"
   },
   "d1_databases": [
     {
