@@ -131,12 +131,23 @@ export default defineEventHandler(async (event) => {
       const guides = (rich.research || []).filter((r: AnyRecord) => r.type === 'Guide').length
       return {
         data: {
+          hero: {
+            title: 'Pet tech research you can actually verify.',
+            eyebrow: 'Independent research',
+            description: 'Independent research on cat and dog products across smart home, feeding, hydration, litter, grooming, waste cleanup, walking, and safety with dated sources and clear commercial disclosures.'
+          },
           categories: (rich.categories || []).map(categoryRow),
-          comparisons: comparisons.slice(0, 4).map((r: AnyRecord) => researchRow(r, 'Comparison')),
-          bestPicks: bestPicks.slice(0, 6).map((r: AnyRecord) => researchRow(r, 'Best pick')),
-          troubleshooting: troubleshooting.slice(0, 4).map((r: AnyRecord) => researchRow(r, 'Troubleshooting')),
-          stats: { productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons.length), guidesPublished: String(guides) },
-          productsResearched: String(products), productCategories: String(categories), comparisonsPublished: String(comparisons.length), guidesPublished: String(guides)
+          comparisons: comparisons.slice(0, 3).map((r: AnyRecord) => researchRow(r, 'Comparison')),
+          bestPicks: bestPicks.slice(0, 8).map((r: AnyRecord) => researchRow(r, 'Best pick')),
+          troubleshooting: troubleshooting.slice(0, 3).map((r: AnyRecord) => researchRow(r, 'Troubleshooting')),
+          methodology: [
+            { body: 'Every research decision records the criteria, sources, and date.', icon: '🔬', title: 'Documented methods' },
+            { body: 'Pages show a last-checked date and review schedule.', icon: '📅', title: 'Dated and updated' },
+            { body: 'Readers can submit corrections for verification.', icon: '💬', title: 'Error correction' },
+            { body: 'Every verdict explains who a product suits, the trade-offs that matter, and what to check before buying.', icon: '🎯', title: 'Practical conclusions' }
+          ],
+          stats: { productsResearched: products, productCategories: categories, comparisonsPublished: comparisons.length, guidesPublished: guides },
+          productsResearched: products, productCategories: categories, comparisonsPublished: comparisons.length, guidesPublished: guides
         }
       }
     }
