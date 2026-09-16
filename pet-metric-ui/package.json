@@ -9,6 +9,7 @@
     "dev:wrangler": "nuxt dev --host 127.0.0.1 --port 3000",
     "preview": "pnpm run build && wrangler pages dev",
     "deploy": "pnpm run build && wrangler pages deploy",
+    "seo:indexnow": "node scripts/submit-indexnow.mjs",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
     "cf:typegen": "wrangler types",

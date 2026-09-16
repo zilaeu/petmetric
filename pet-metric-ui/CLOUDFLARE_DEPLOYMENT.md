@@ -124,3 +124,13 @@ curl http://localhost:3000/api/content/home
 - D1 纠错表单建议在生产前加速率限制或 Turnstile。
 - 价格、订阅和库存是时间敏感字段，更新时同步修改 `updated_at`/`checked_at`。
 - 生产部署前运行 `pnpm run build`；部署后用 `wrangler tail` 检查 Worker 错误。
+
+## 9. 搜索引擎更新通知
+
+生产部署完成后，用 IndexNow 将当前站点地图中的同域 URL 主动提交给支持该协议的搜索引擎：
+
+```bash
+pnpm run seo:indexnow
+```
+
+脚本会从 `https://petmetricus.com/sitemap.xml` 读取 URL，并使用站点根目录中的公开验证 key 文件提交。新增、删除或大批量更新内容后应再次运行。

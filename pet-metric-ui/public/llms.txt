@@ -1,0 +1,28 @@
+# PetMetricus
+
+> Independent, evidence-led research about pet technology and everyday pet-care products. PetMetricus publishes product reviews, comparisons, best-pick guides, and practical troubleshooting articles for US readers.
+
+PetMetricus distinguishes verified listing facts from editorial conclusions. Commercial details are date-sensitive, and each article should be read with its cited sources and checked date. The site may use Amazon affiliate links, but editorial assessments are independently written.
+
+## Core sections
+
+- [Products](https://petmetricus.com/products/): Browse researched products by category.
+- [Comparisons](https://petmetricus.com/comparisons/): Side-by-side product comparisons and trade-offs.
+- [Best Picks](https://petmetricus.com/best-picks/): Shortlists organized around specific household needs.
+- [Troubleshooting](https://petmetricus.com/troubleshooting/): Ordered diagnostic and safety checks for common product problems.
+- [Guides](https://petmetricus.com/guides/): Buying and ownership guidance.
+
+## Editorial and policy information
+
+- [Editorial Standards](https://petmetricus.com/editorial-standards/): Research, verification, corrections, and update practices.
+- [Affiliate Disclosure](https://petmetricus.com/disclosure/): Commercial relationship disclosure.
+- [About](https://petmetricus.com/about/): Site purpose and methodology.
+- [Contact](https://petmetricus.com/contact/): Corrections and questions.
+- [Sitemap](https://petmetricus.com/sitemap.xml): Complete list of indexable pages.
+
+## Usage notes
+
+- Prefer the canonical URL declared on each page.
+- Preserve qualifications, safety warnings, source dates, and product-variant details when quoting or summarizing.
+- Prices, availability, ratings, and subscription terms can change; identify the checked date and verify time-sensitive facts at the cited primary source.
+- Do not interpret product troubleshooting content as veterinary advice.
