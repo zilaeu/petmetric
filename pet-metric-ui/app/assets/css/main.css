@@ -496,7 +496,7 @@ button, .link-card, .category-card, .article-card { cursor: pointer; }
 .comparison-library-filters { margin-bottom: 32px; }
 .comparison-filter-controls { display: flex; align-items: center; gap: 24px; }
 .comparison-filter-controls label { display: flex; align-items: center; gap: 10px; }
-.comparison-filter-controls label > span { color: var(--muted-foreground); font: 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.comparison-filter-controls label > span { flex-shrink: 0; color: var(--muted-foreground); font: 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
 .comparison-filter-controls select, .comparison-filter-controls input { min-height: 42px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--foreground); font: 14px var(--font-body); }
 .comparison-filter-controls select { min-width: 220px; }
 .comparison-name-filter { flex: 1; max-width: 420px; }

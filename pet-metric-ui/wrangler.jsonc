@@ -8,7 +8,7 @@
   "vars": {
     "SITE_NAME": "PetMetricus",
     "SITE_DESCRIPTION": "Independent pet technology research for better everyday decisions.",
-    "CONTACT_EMAIL": "hello@petmetricus.com",
+    "CONTACT_EMAIL": "zilaeu@gmail.com",
     "NUXT_PUBLIC_GA_MEASUREMENT_ID": "G-5VKV9Y6YVE"
   },
   "d1_databases": [

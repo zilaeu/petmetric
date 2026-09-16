@@ -8,7 +8,7 @@ const queryCategory = String(route.query.category || '')
 const active = ref(categorySlugs.value.includes(queryCategory) ? queryCategory : 'all')
 const openPick = ref<string | null>(null)
 const currentPage = ref(1)
-const pageSize = 9
+const pageSize = 10
 
 watch(() => route.query.category, (value) => {
   const category = String(value || '')
