@@ -23,8 +23,15 @@ const faq = computed<FaqItem[]>(() => (Array.isArray(article.value.content?.faq)
 
 useHead(() => ({
   title: `${article.value.title} — PetMetricus`,
-  meta: [{ name: 'description', content: article.value.description }],
-  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  meta: [{ name: 'description', content: seoDescription(`${article.value.title}: ${article.value.description}`) }],
+  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(articleJsonLd({
+    type: 'TechArticle',
+    title: article.value.title,
+    description: article.value.description,
+    url: `https://petmetricus.com/troubleshooting/${String(route.params.slug)}/`,
+    dateModified: article.value.checkedAt || article.value.updated,
+    image: article.value.img
+  })) }, { type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },

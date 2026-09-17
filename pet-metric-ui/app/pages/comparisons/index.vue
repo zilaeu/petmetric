@@ -92,6 +92,14 @@ watch(selected, async (value) => {
 onBeforeUnmount(releaseModal)
 
 useSeoMeta({ title: 'Comparisons — PetMetricus', description: 'Side-by-side pet technology comparisons using consistent category criteria.' })
+useHead(() => ({ script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Pet product comparisons',
+  description: 'Side-by-side pet technology comparisons using consistent category criteria.',
+  url: 'https://petmetricus.com/comparisons/',
+  mainEntity: { '@type': 'ItemList', itemListElement: comparisons.value.map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: `${item.a} vs ${item.b}`, url: `https://petmetricus.com${item.href}`
+  })) }
+}) }] }))
 </script>
 
 <template>

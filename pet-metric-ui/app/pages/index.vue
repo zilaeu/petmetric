@@ -1,5 +1,19 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'PetMetricus — Pet product research you can actually verify.', description: 'Independent research on cat and dog products across smart home, feeding, hydration, litter, grooming, waste cleanup, walking, and safety with documented methods and practical buying guidance.' })
+useSeoMeta({ title: 'PetMetricus — Pet product research you can actually verify.', description: 'Independent pet product reviews, comparisons, buying guides, and troubleshooting with dated sources and practical ownership advice.' })
+useHead({
+  script: [
+    { type: 'application/ld+json', innerHTML: JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Organization', name: 'PetMetricus',
+      url: 'https://petmetricus.com/', logo: 'https://petmetricus.com/favicon.svg',
+      description: 'Independent, evidence-led research about pet technology and everyday pet-care products.'
+    }) },
+    { type: 'application/ld+json', innerHTML: JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'WebSite', name: 'PetMetricus',
+      url: 'https://petmetricus.com/',
+      potentialAction: { '@type': 'SearchAction', target: 'https://petmetricus.com/products/?q={search_term_string}', 'query-input': 'required name=search_term_string' }
+    }) }
+  ]
+})
 
 const { data: homeData } = await usePetMetricApi('home-content', '/home', {
   categories: [],

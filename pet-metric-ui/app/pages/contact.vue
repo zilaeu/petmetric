@@ -33,7 +33,7 @@ async function submit() {
 function reset() {
   form.type='correction'; form.name=''; form.email=''; form.url=''; form.message=''; sent.value=false
 }
-useSeoMeta({ title: 'Contact PetMetricus', description: 'Submit a correction or contact the PetMetricus research desk.' })
+useSeoMeta({ title: 'Contact PetMetricus', description: 'Submit a correction, research question, product issue, or media inquiry to the PetMetricus research desk.' })
 </script>
 
 <template>

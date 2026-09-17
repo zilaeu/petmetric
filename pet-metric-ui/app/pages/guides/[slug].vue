@@ -33,8 +33,14 @@ const tableRows = (table: GuideSection['table']) => {
 
 useHead(() => ({
   title: `${guide.value.title} — PetMetricus`,
-  meta: [{ name: 'description', content: guide.value.desc }],
-  script: [{
+  meta: [{ name: 'description', content: seoDescription(`${guide.value.title}: ${guide.value.desc}`) }],
+  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(articleJsonLd({
+    title: guide.value.title,
+    description: guide.value.desc,
+    url: `https://petmetricus.com/guides/${String(route.params.slug)}/`,
+    dateModified: guide.value.checkedAt || guide.value.updated,
+    image: guide.value.img
+  })) }, {
     type: 'application/ld+json',
     innerHTML: JSON.stringify({
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',

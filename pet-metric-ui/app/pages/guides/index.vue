@@ -36,7 +36,15 @@ const guideFaq = [
   { question: 'What if my question is not covered?', answer: 'Send us the decision you are trying to make. Useful reader questions help us prioritize new explainers and clarify confusing sections in existing guides.' }
 ]
 
-useSeoMeta({ title: 'Guides — PetMetricus', description: 'Topic-based buying guides for pet technology.' })
+useSeoMeta({ title: 'Guides — PetMetricus', description: 'Pet technology buying guides covering product fit, safety, maintenance, subscriptions, and long-term ownership costs.' })
+useHead(() => ({ script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Pet technology buying guides',
+  description: 'Pet technology buying guides covering product fit, safety, maintenance, subscriptions, and long-term ownership costs.',
+  url: 'https://petmetricus.com/guides/',
+  mainEntity: { '@type': 'ItemList', itemListElement: guideData.value.map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: item.title, url: `https://petmetricus.com${item.href}`
+  })) }
+}) }] }))
 </script>
 
 <template>

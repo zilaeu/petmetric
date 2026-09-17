@@ -174,7 +174,25 @@ const reset = () => {
 
 useHead(() => ({
   title: `${effectiveMeta.value.title} — PetMetricus`,
-  meta: [{ name: 'description', content: effectiveMeta.value.subtitle }]
+  meta: [{ name: 'description', content: seoDescription(`${effectiveMeta.value.title}: ${effectiveMeta.value.subtitle}`) }],
+  script: [
+    { type: 'application/ld+json', innerHTML: JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://petmetricus.com/products/' },
+        { '@type': 'ListItem', position: 3, name: effectiveMeta.value.title, item: `https://petmetricus.com/products/${slug.value}/` }
+      ]
+    }) },
+    { type: 'application/ld+json', innerHTML: JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'ItemList', name: `${effectiveMeta.value.title} product research`,
+      numberOfItems: effectiveProducts.value.length,
+      itemListElement: effectiveProducts.value.map((product: any, index: number) => ({
+        '@type': 'ListItem', position: index + 1, name: product.name,
+        url: `https://petmetricus.com/reviews/${product.slug}/`
+      }))
+    }) }
+  ]
 }))
 </script>
 

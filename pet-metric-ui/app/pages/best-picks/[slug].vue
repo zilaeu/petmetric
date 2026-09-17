@@ -77,8 +77,14 @@ const content = computed(() => {
 })
 useHead(() => ({
   title: `${content.value.title} — PetMetricus`,
-  meta: [{ name: 'description', content: content.value.summary }],
-  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  meta: [{ name: 'description', content: seoDescription(`${content.value.title}: ${content.value.summary}`) }],
+  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(articleJsonLd({
+    title: content.value.title,
+    description: content.value.summary,
+    url: `https://petmetricus.com/best-picks/${String(route.params.slug)}/`,
+    dateModified: content.value.updated,
+    image: content.value.img
+  })) }, { type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },

@@ -10,7 +10,9 @@ useHead(() => ({
   meta: [
     { property: 'og:url', content: `${canonicalOrigin.value}${route.path}` },
     { property: 'og:type', content: route.path.startsWith('/reviews/') || route.path.startsWith('/guides/') || route.path.startsWith('/comparisons/') || route.path.startsWith('/best-picks/') || route.path.startsWith('/troubleshooting/') ? 'article' : 'website' },
-    { name: 'twitter:card', content: 'summary_large_image' }
+    { name: 'twitter:card', content: 'summary_large_image' },
+    ...(runtimeConfig.public.googleSiteVerification ? [{ name: 'google-site-verification', content: String(runtimeConfig.public.googleSiteVerification) }] : []),
+    ...(runtimeConfig.public.bingSiteVerification ? [{ name: 'msvalidate.01', content: String(runtimeConfig.public.bingSiteVerification) }] : [])
   ]
 }))
 
@@ -20,9 +22,10 @@ const searchQuery = ref('')
 const searchButton = ref<HTMLButtonElement | null>(null)
 const menuButton = ref<HTMLButtonElement | null>(null)
 const searchInput = ref<HTMLInputElement | null>(null)
-const { data: searchableProducts } = await usePetMetricApi<any[]>('global-search-products', '/products?limit=100', [])
-const { data: searchableComparisons } = await usePetMetricApi<any[]>('global-search-comparisons', '/comparisons?limit=100', [])
-const { data: searchableTroubleshooting } = await usePetMetricApi<any[]>('global-search-troubleshooting', '/troubleshooting?limit=100', [])
+const globalSearchResults = ref<Array<{ type: string, title: string, detail: string, to: string }>>([])
+const searchLoading = ref(false)
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+let searchRequest = 0
 const navItems = [
   { label: 'Products', to: '/products/' },
   { label: 'Comparisons', to: '/comparisons/' },
@@ -33,15 +36,35 @@ const navItems = [
 ]
 const categoryOptions = await useCategoryOptions('navigation-categories')
 const productItems = computed(() => categoryOptions.value.map(item => ({ label: item.label, to: `/products/${item.slug}/` })))
-const globalSearchResults = computed(() => {
-  const query = searchQuery.value.trim().toLocaleLowerCase('en-US')
-  if (query.length < 2) return []
-  const matches = (value: unknown) => String(value || '').toLocaleLowerCase('en-US').includes(query)
-  return [
-    ...searchableProducts.value.filter(item => matches(`${item.name} ${item.brand} ${item.categorySlug}`)).slice(0, 4).map(item => ({ type: 'Product', title: item.name, detail: item.brand || item.category, to: `/reviews/${item.slug}/` })),
-    ...searchableComparisons.value.filter(item => matches(`${item.a} ${item.b} ${item.category}`)).slice(0, 4).map(item => ({ type: 'Comparison', title: `${item.a} vs ${item.b}`, detail: item.category, to: item.href })),
-    ...searchableTroubleshooting.value.filter(item => matches(`${item.product} ${item.problem} ${item.description || ''}`)).slice(0, 4).map(item => ({ type: 'Troubleshooting', title: item.problem, detail: item.product, to: item.href })),
-  ]
+
+watch(searchQuery, (value) => {
+  if (searchTimer) clearTimeout(searchTimer)
+  const query = value.trim()
+  const requestId = ++searchRequest
+  if (query.length < 2) {
+    globalSearchResults.value = []
+    searchLoading.value = false
+    return
+  }
+  searchLoading.value = true
+  searchTimer = setTimeout(async () => {
+    try {
+      const response = await $fetch<{ data: typeof globalSearchResults.value }>('/search', {
+        baseURL: runtimeConfig.public.apiBase,
+        query: { q: query },
+        timeout: 5000
+      })
+      if (requestId === searchRequest) globalSearchResults.value = response.data || []
+    } catch {
+      if (requestId === searchRequest) globalSearchResults.value = []
+    } finally {
+      if (requestId === searchRequest) searchLoading.value = false
+    }
+  }, 180)
+})
+
+onBeforeUnmount(() => {
+  if (searchTimer) clearTimeout(searchTimer)
 })
 
 async function toggleSearch() {
@@ -106,7 +129,7 @@ function submitSearch() {
         <form @submit.prevent="submitSearch">
           <label for="site-search">Search PetMetricus</label>
           <div class="search-input-row"><input id="site-search" ref="searchInput" v-model="searchQuery" type="search" autocomplete="off" placeholder="Search products, comparisons, or troubleshooting…" /><button class="btn btn--accent" type="submit">Search</button></div>
-          <div v-if="searchQuery.trim().length >= 2" class="global-search-results"><NuxtLink v-for="item in globalSearchResults" :key="`${item.type}-${item.to}`" :to="item.to" @click="closeNavigation"><span>{{ item.type }}</span><strong>{{ item.title }}</strong><small>{{ item.detail }}</small></NuxtLink><p v-if="!globalSearchResults.length">No matching products, comparisons, or troubleshooting guides.</p></div>
+          <div v-if="searchQuery.trim().length >= 2" class="global-search-results"><NuxtLink v-for="item in globalSearchResults" :key="`${item.type}-${item.to}`" :to="item.to" @click="closeNavigation"><span>{{ item.type }}</span><strong>{{ item.title }}</strong><small>{{ item.detail }}</small></NuxtLink><p v-if="searchLoading">Searching…</p><p v-else-if="!globalSearchResults.length">No matching products, comparisons, or troubleshooting guides.</p></div>
         </form>
       </div>
     </div>

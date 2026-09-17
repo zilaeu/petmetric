@@ -37,6 +37,14 @@ const pagedPicks = computed(() => picks.value.slice((currentPage.value - 1) * pa
 watch(active, () => { currentPage.value = 1 })
 
 useSeoMeta({ title: 'Best Picks — PetMetricus', description: 'Scenario-based pet technology recommendations with budget and tradeoffs.' })
+useHead(() => ({ script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Pet technology best picks',
+  description: 'Scenario-based pet technology recommendations with budget and tradeoffs.',
+  url: 'https://petmetricus.com/best-picks/',
+  mainEntity: { '@type': 'ItemList', itemListElement: bestPickData.value.map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: item.title, url: `https://petmetricus.com${item.href}`
+  })) }
+}) }] }))
 </script>
 
 <template>

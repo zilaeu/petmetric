@@ -113,7 +113,7 @@ const researchInfo = computed(() => [
 
 useHead(() => ({
   title: `${product.value.name} review — PetMetricus`,
-  meta: [{ name: 'description', content: product.value.verdict }],
+  meta: [{ name: 'description', content: seoDescription(`${product.value.name} review: ${product.value.verdict}`) }],
   script: [{
     type: 'application/ld+json',
     innerHTML: JSON.stringify({
@@ -132,11 +132,6 @@ useHead(() => ({
         availability: /in stock/i.test(String(product.value.availability || ''))
           ? 'https://schema.org/InStock'
           : 'https://schema.org/OutOfStock'
-      } : undefined,
-      aggregateRating: product.value.amazonRating != null && product.value.amazonReviewCount != null ? {
-        '@type': 'AggregateRating',
-        ratingValue: Number(product.value.amazonRating).toFixed(1),
-        reviewCount: Number(product.value.amazonReviewCount)
       } : undefined
     })
   }, {

@@ -106,8 +106,14 @@ const productFitText = (product: any) => {
 
 useHead(() => ({
   title: `${article.value.title} — PetMetricus`,
-  meta: [{ name: 'description', content: article.value.verdict }],
-  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  meta: [{ name: 'description', content: seoDescription(`${article.value.a} vs ${article.value.b}: ${article.value.verdict}`) }],
+  script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(articleJsonLd({
+    title: article.value.title,
+    description: `${article.value.a} vs ${article.value.b}: ${article.value.verdict}`,
+    url: `https://petmetricus.com/comparisons/${String(route.params.slug)}/`,
+    dateModified: article.value.checkedAt || article.value.updated,
+    image: article.value.img
+  })) }, { type: 'application/ld+json', innerHTML: JSON.stringify({
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://petmetricus.com/' },

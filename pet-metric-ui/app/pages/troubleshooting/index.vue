@@ -39,6 +39,14 @@ const supportChecklist = [
 ]
 
 useSeoMeta({ title: 'Troubleshooting — PetMetricus', description: 'Step-by-step, safety-first troubleshooting for popular pet technology.' })
+useHead(() => ({ script: [{ type: 'application/ld+json', innerHTML: JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Pet technology troubleshooting',
+  description: 'Step-by-step, safety-first troubleshooting for popular pet technology.',
+  url: 'https://petmetricus.com/troubleshooting/',
+  mainEntity: { '@type': 'ItemList', itemListElement: troubleData.value.map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: item.title || item.problem, url: `https://petmetricus.com${item.href}`
+  })) }
+}) }] }))
 </script>
 
 <template>

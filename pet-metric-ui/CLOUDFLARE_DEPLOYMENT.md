@@ -134,3 +134,14 @@ pnpm run seo:indexnow
 ```
 
 脚本会从 `https://petmetricus.com/sitemap.xml` 读取 URL，并使用站点根目录中的公开验证 key 文件提交。新增、删除或大批量更新内容后应再次运行。
+
+Google Search Console 和 Bing Webmaster Tools 的 HTML meta 验证由以下公开环境变量控制：
+
+```bash
+NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION=google-provided-token
+NUXT_PUBLIC_BING_SITE_VERIFICATION=bing-provided-token
+```
+
+在 Cloudflare Pages 的 Production 环境中设置平台提供的 token 后重新部署。站点会分别输出 `google-site-verification` 和 `msvalidate.01`。验证完成后仍建议保留这些值，防止所有权复核失败。
+
+GA4 会记录普通 `page_view`，并将带 `rel="sponsored"` 或指向 Amazon.com 的出站链接记录为 `affiliate_click`。事件参数包括目标 URL、域名、链接文字和来源页面路径。

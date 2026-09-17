@@ -47,7 +47,9 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
       // GA4 stays opt-in so local previews and unconfigured deployments do
       // not send analytics accidentally. Set this to a G-XXXXXXXXXX ID.
-      gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || ''
+      gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
+      googleSiteVerification: process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+      bingSiteVerification: process.env.NUXT_PUBLIC_BING_SITE_VERIFICATION || ''
     }
   },
   typescript: {

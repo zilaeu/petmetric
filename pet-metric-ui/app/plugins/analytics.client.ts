@@ -31,4 +31,19 @@ export default defineNuxtPlugin((nuxtApp) => {
   // Nuxt emits page:finish after both initial hydration and client-side
   // navigations, so each route is counted once without a full reload.
   nuxtApp.hook('page:finish', trackPageView)
+
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href]')
+    if (!link) return
+    const url = new URL(link.href, window.location.href)
+    const isAffiliate = link.rel.split(/\s+/).includes('sponsored') || url.hostname.endsWith('amazon.com')
+    if (!isAffiliate) return
+    window.gtag?.('event', 'affiliate_click', {
+      link_url: url.href,
+      link_domain: url.hostname,
+      link_text: link.textContent?.trim().slice(0, 100) || '',
+      page_path: `${window.location.pathname}${window.location.search}`,
+      transport_type: 'beacon'
+    })
+  }, { capture: true })
 })

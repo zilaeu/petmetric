@@ -1,7 +1,13 @@
 <script setup lang="ts">
+definePageMeta({ key: route => route.fullPath })
 const route = useRoute()
+const searchQuery = computed(() => String(route.query.q || '').trim())
 const { data: categoryData } = await usePetMetricApi<any[]>('product-categories', '/categories', [])
-const { data: allProductData } = await usePetMetricApi<any[]>('all-products-search', '/products?limit=100', [])
+const allProductData = ref<any[]>([])
+if (searchQuery.value) {
+  const { data } = await usePetMetricApi<any[]>(`all-products-search-${searchQuery.value}`, '/products?limit=100', [])
+  allProductData.value = data.value
+}
 const { data: homeData } = await usePetMetricApi<any>('products-home-stats', '/home', {
   stats: { productsResearched: '—', productCategories: '—', comparisonsPublished: '—', guidesPublished: '—' }
 })
@@ -24,7 +30,6 @@ const heroStats = computed(() => [
   { value: String(stats.value.comparisonsPublished), label: 'comparisons' },
   { value: String(stats.value.guidesPublished), label: 'buying guides' }
 ])
-const searchQuery = computed(() => String(route.query.q || '').trim())
 const searchResults = computed(() => {
   const query = searchQuery.value.toLocaleLowerCase('en-US')
   if (!query) return []
